@@ -2,13 +2,14 @@
   "name": "impactdisciples",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "start-pwa": "ng build && http-server -p 8080 -c-1 dist/impactdisciples",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "firebase deploy --only hosting:impactdisciples-event-app"
+    "deploy": "firebase deploy --only hosting:impactdisciples-event-app",
+    "add-git-submodule": "git submodule add -b development https://github.com/SRFreed-Consulting-LLC/impactdisciplescommon.git",
+    "init-git-submodules": "git submodule update --init && git submodule update --init --recursive && git submodule status --recursive"
   },
   "private": true,
   "dependencies": {
