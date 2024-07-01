@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import CustomStore from 'devextreme/data/custom_store';
-import { LogMessage } from 'impactdisciplescommon/src/app/shared/models/utils/log-message.model';
-import { LoggerService } from 'impactdisciplescommon/src/app/shared/services/logger.service';
+import { LogMessage } from 'impactdisciplescommon/src/models/utils/log-message.model';
+import { LoggerService } from 'impactdisciplescommon/src/services/logger.service';
 
 @Component({
   selector: 'app-log-messages',

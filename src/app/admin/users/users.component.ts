@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular';
 import CustomStore from 'devextreme/data/custom_store';
-import { Role } from 'impactdisciplescommon/src/app/shared/lists/roles.enum';
-import { AppUser } from 'impactdisciplescommon/src/app/shared/models/admin/user.model';
-import { AppUserService } from 'impactdisciplescommon/src/app/shared/services/user.service';
+import { Role } from 'impactdisciplescommon/src/lists/roles.enum';
+import { AppUser } from 'impactdisciplescommon/src/models/admin/user.model';
+import { AppUserService } from 'impactdisciplescommon/src/services/user.service';
 
 @Component({
   selector: 'app-users',

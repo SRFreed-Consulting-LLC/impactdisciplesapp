@@ -9,8 +9,8 @@ import { FeaturesModule } from './features/features.module';
 import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from './admin/admin.module';
-import { SharedModule } from './shared/shared.module';
-import { FormsModule } from 'impactdisciplescommon/src/app/shared/forms/forms.module';
+import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
+import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { FormsModule } from 'impactdisciplescommon/src/app/shared/forms/forms.mo
     FeaturesModule,
     AdminModule,
     FormsModule,
-    SharedModule
+    ImpactDisciplesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
