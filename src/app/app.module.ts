@@ -8,9 +8,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { FeaturesModule } from './features/features.module';
 import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
-import { FormsModule } from './shared/forms/forms.module';
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
+import { FormsModule } from 'impactdisciplescommon/src/app/shared/forms/forms.module';
 
 @NgModule({
   declarations: [

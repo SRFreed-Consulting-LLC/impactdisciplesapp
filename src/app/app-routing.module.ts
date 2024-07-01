@@ -5,15 +5,13 @@ import { HomeComponent } from './features/home/home.component';
 import { MenuComponent } from './features/menu/menu.component';
 import { ScheduleComponent } from './features/schedule/schedule.component';
 import { AnnouncementsComponent } from './features/announcements/announcements.component';
-
-import { CaptureUsernameFormComponent } from './shared/forms/capture-username-form/capture-username-form.component';
-import { ChangePasswordFormComponent } from './shared/forms/change-password-form/change-password-form.component';
-import { CreateAuthFormComponent } from './shared/forms/create-auth-form/create-auth-form.component';
-import { ResetPasswordFormComponent } from './shared/forms/reset-password-form/reset-password-form.component';
-import { LogMessagesComponent } from './admin/log-messages/log-messages.component';
-import { RootComponent } from './shared/forms/root/root.component';
-import { CapturePasswordFormComponent } from './shared/forms/capture-password-form/capture-password-form.component';
-import { AuthGuardService } from './shared/services/auth.service';
+import { AuthGuardService } from 'impactdisciplescommon/src/app/shared/services/auth.service';
+import { CapturePasswordFormComponent } from 'impactdisciplescommon/src/app/shared/forms/capture-password-form/capture-password-form.component';
+import { CaptureUsernameFormComponent } from 'impactdisciplescommon/src/app/shared/forms/capture-username-form/capture-username-form.component';
+import { ChangePasswordFormComponent } from 'impactdisciplescommon/src/app/shared/forms/change-password-form/change-password-form.component';
+import { CreateAuthFormComponent } from 'impactdisciplescommon/src/app/shared/forms/create-auth-form/create-auth-form.component';
+import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/app/shared/forms/reset-password-form/reset-password-form.component';
+import { RootComponent } from 'impactdisciplescommon/src/app/shared/forms/root/root.component';
 
 const routes: Routes = [
   {
