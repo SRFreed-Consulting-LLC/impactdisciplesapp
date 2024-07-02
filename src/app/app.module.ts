@@ -9,8 +9,9 @@ import { FeaturesModule } from './features/features.module';
 import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from './admin/admin.module';
-import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
+import { LayoutsModule } from 'impactdisciplescommon/src/layouts/layouts.module';
 import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
+import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples
     FeaturesModule,
     AdminModule,
     FormsModule,
+    LayoutsModule,
     ImpactDisciplesModule
   ],
   providers: [],
