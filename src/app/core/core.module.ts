@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxDropDownButtonModule, DxTabsModule, DxToolbarModule } from 'devextreme-angular';
-import { RootComponent } from './root/root.component';
+import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     DxDropDownButtonModule
   ],
   declarations: [
-    RootComponent
+    MainComponent
   ]
 })
 export class CoreModule { }

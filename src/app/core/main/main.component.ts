@@ -4,15 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { RouteItem } from 'impactdisciplescommon/src/models/utils/route-item';
 import { TopNavService } from 'impactdisciplescommon/src/services/top-nav.service';
 import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
-import notify from 'devextreme/ui/notify';
 import { AuthService } from 'impactdisciplescommon/src/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './root.component.html',
-  styleUrls: ['./root.component.css']
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css']
 })
-export class RootComponent implements OnInit{
+export class MainComponent implements OnInit{
   menuItems: string[] = ['Log Off'];
 
   backButtonOptions: DxButtonTypes.Properties = {

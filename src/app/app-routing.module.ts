@@ -9,13 +9,13 @@ import { ChangePasswordFormComponent } from 'impactdisciplescommon/src/forms/cha
 import { CreateAuthFormComponent } from 'impactdisciplescommon/src/forms/create-auth-form/create-auth-form.component';
 import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/reset-password-form/reset-password-form.component';
 import { AuthGuardService } from 'impactdisciplescommon/src/services/auth.service';
-import { RootComponent } from './core/root/root.component';
+import { MainComponent } from './core/main/main.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: RootComponent,
+    component: MainComponent,
     canActivate: [ AuthGuardService ],
     children: [
       {
