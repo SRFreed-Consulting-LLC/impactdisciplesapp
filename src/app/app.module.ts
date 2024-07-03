@@ -12,6 +12,7 @@ import { AdminModule } from './admin/admin.module';
 import { LayoutsModule } from 'impactdisciplescommon/src/layouts/layouts.module';
 import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
 import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     ToastrModule.forRoot(),
+    CoreModule,
     FeaturesModule,
     AdminModule,
     FormsModule,

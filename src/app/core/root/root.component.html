@@ -1,0 +1,36 @@
+<div class="header-container">
+  <div class="titlebar">
+    <span id="Impact-Logo"><img src="../../../../assets/Impact-Logo_Black.png" width="48.23px" height="43.19px"></span>
+    <span id="Impact-Title">Impact Discipleship Ministries</span>
+    <span>
+      <dx-drop-down-button
+        icon="menu"
+        height="50px"
+        [stylingMode]="'text'"
+        [dropDownOptions]="{ width: 230 }"
+        [items]="menuItems"
+        (onItemClick)="onMenuItemClick($event)">
+      </dx-drop-down-button>
+    </span>
+  </div>
+</div>
+<div class="app-container">
+  <router-outlet>
+  </router-outlet>
+</div>
+
+<div class="footer-container">
+  <dx-tabs
+    #withIcon
+    [width]="'auto'"
+    [selectedIndex]="0"
+    [rtlEnabled]="false"
+    [scrollByContent]="false"
+    [showNavButtons]="false"
+    [dataSource]="tabsWithIcon"
+    [orientation]="'horizontal'"
+    [stylingMode]="'primary'"
+    [iconPosition]="'top'"
+    (onItemClick)="tabClicked($event)">
+  </dx-tabs>
+</div>

@@ -1,8 +1,6 @@
-import { UsersComponent } from './admin/users/users.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
-import { MenuComponent } from './features/menu/menu.component';
 import { ScheduleComponent } from './features/schedule/schedule.component';
 import { AnnouncementsComponent } from './features/announcements/announcements.component';
 import { CapturePasswordFormComponent } from 'impactdisciplescommon/src/forms/capture-password-form/capture-password-form.component';
@@ -10,8 +8,8 @@ import { CaptureUsernameFormComponent } from 'impactdisciplescommon/src/forms/ca
 import { ChangePasswordFormComponent } from 'impactdisciplescommon/src/forms/change-password-form/change-password-form.component';
 import { CreateAuthFormComponent } from 'impactdisciplescommon/src/forms/create-auth-form/create-auth-form.component';
 import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/reset-password-form/reset-password-form.component';
-import { RootComponent } from 'impactdisciplescommon/src/layouts/root/root.component';
 import { AuthGuardService } from 'impactdisciplescommon/src/services/auth.service';
+import { RootComponent } from './core/root/root.component';
 
 
 const routes: Routes = [
@@ -28,11 +26,6 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        canActivate: [ AuthGuardService ]
-      },
-      {
-        path: 'menu',
-        component: MenuComponent,
         canActivate: [ AuthGuardService ]
       },
       {
