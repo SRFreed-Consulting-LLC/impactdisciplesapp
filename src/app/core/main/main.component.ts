@@ -5,7 +5,7 @@ import { RouteItem } from 'impactdisciplescommon/src/models/utils/route-item';
 import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
 import { TopNavService } from 'impactdisciplescommon/src/services/utils/top-nav.service';
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
-import { FcmMessageService } from '../FCMMessageService.service';
+import { FcmMessageService } from '../../../../impactdisciplescommon/src/services/admin/FCMMessageService.service';
 
 @Component({
   selector: 'app-root',
