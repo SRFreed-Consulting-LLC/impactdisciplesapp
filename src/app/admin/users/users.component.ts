@@ -3,7 +3,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import CustomStore from 'devextreme/data/custom_store';
 import { Role } from 'impactdisciplescommon/src/lists/roles.enum';
 import { AppUser } from 'impactdisciplescommon/src/models/admin/appuser.model';
-import { AppUserService } from 'impactdisciplescommon/src/services/user.service';
+import { AppUserService } from 'impactdisciplescommon/src/services/admin/user.service';
 
 @Component({
   selector: 'app-users',

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DxButtonTypes } from 'devextreme-angular/ui/button';
 import { ActivatedRoute } from '@angular/router';
 import { RouteItem } from 'impactdisciplescommon/src/models/utils/route-item';
-import { TopNavService } from 'impactdisciplescommon/src/services/top-nav.service';
 import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
-import { AuthService } from 'impactdisciplescommon/src/services/auth.service';
+import { TopNavService } from 'impactdisciplescommon/src/services/utils/top-nav.service';
+import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
+import { FcmMessageService } from '../FCMMessageService.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class MainComponent implements OnInit{
 
   tabsWithIcon: RouteItem[];
 
-  constructor(public topNavService: TopNavService, private route: ActivatedRoute, private authService: AuthService) {
+  constructor(public topNavService: TopNavService, private route: ActivatedRoute, private authService: AuthService, private fcmMessageService: FcmMessageService) {
     this.tabsWithIcon = [
       { id: 0, name:'Home', route:'home', icon: 'home', level: 0},
       { id: 1, name:'Schedule', route:'schedule', icon: 'toolbox', level: 0},
@@ -33,6 +34,7 @@ export class MainComponent implements OnInit{
 
   ngOnInit() {
     const filter = this.route.snapshot.queryParamMap.get('filter');
+    this.fcmMessageService.checkNotificationsSetup();
   }
 
   tabClicked(e :any){

@@ -8,8 +8,8 @@ import { CaptureUsernameFormComponent } from 'impactdisciplescommon/src/forms/ca
 import { ChangePasswordFormComponent } from 'impactdisciplescommon/src/forms/change-password-form/change-password-form.component';
 import { CreateAuthFormComponent } from 'impactdisciplescommon/src/forms/create-auth-form/create-auth-form.component';
 import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/reset-password-form/reset-password-form.component';
-import { AuthGuardService } from 'impactdisciplescommon/src/services/auth.service';
 import { MainComponent } from './core/main/main.component';
+import { AuthGuardService } from 'impactdisciplescommon/src/services/utils/auth.service';
 
 
 const routes: Routes = [
