@@ -27,6 +27,7 @@
     "@angular/router": "^16.2.0",
     "@angular/service-worker": "^16.2.0",
     "@google-cloud/firestore": "^7.9.0",
+    "date-fns": "^3.6.0",
     "devextreme": "23.2.6",
     "devextreme-angular": "23.2.6",
     "devextreme-schematics": "^1.6.9",
