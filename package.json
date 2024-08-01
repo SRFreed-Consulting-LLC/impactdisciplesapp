@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "start-pwa": "ng build && http-server -p 8080 -c-1 dist/impactdisciples",
-    "build": "ng build",
+    "start-pwa": "ng build --configuration=development && http-server -p 8080 -c-1 dist/impactdisciples",
+    "build-dev": "ng build --configuration=development",
+    "build-prod": "ng build --configuration=production",
+    "build-deploy": "ng build --configuration=production && firebase deploy --only hosting:impactdisciples-event-app",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy": "firebase deploy --only hosting:impactdisciples-event-app",

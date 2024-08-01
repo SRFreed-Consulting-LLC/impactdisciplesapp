@@ -6,6 +6,7 @@ import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
 import { TopNavService } from 'impactdisciplescommon/src/services/utils/top-nav.service';
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { FcmMessageService } from '../../../../impactdisciplescommon/src/services/admin/FCMMessageService.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,10 @@ export class MainComponent implements OnInit{
 
   ngOnInit() {
     const filter = this.route.snapshot.queryParamMap.get('filter');
-    this.fcmMessageService.checkNotificationsSetup();
+    this.authService.getUser().pipe(take(1)).subscribe (user => {
+      this.fcmMessageService.persistTokentoDB(user);
+    })
+
   }
 
   tabClicked(e :any){
