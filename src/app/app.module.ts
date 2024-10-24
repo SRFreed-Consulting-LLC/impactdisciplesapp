@@ -22,10 +22,14 @@ import { CoreModule } from './core/core.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // ServiceWorkerModule.register('firebase-messaging-sw.js', {
+    //   enabled: !isDevMode(),
+    //   scope: environment.domain,
+    //   registrationStrategy: 'registerWhenStable:20000'
+    // }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
+      scope: environment.domain,
       registrationStrategy: 'registerWhenStable:30000'
     }),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),

@@ -20,7 +20,15 @@ isSupported().then(isSupported => {
     const messaging = getMessaging(app);
 
     onBackgroundMessage(messaging, ({ notification: { title, body, image } }) => {
-      self.registration.showNotification(title, { body, icon: image || '/assets/icons/icon-72x72.png' });
+      var notificationTitle = title;
+      var notificationOptions = {
+        body: body,
+        icon: image || '/assets/icons/icon-72x72.png',
+        vibrate: [200, 100, 200, 100, 200, 100, 200],
+        tag: "bg"
+      };
+      console.log('about to show notification ' + body)
+      self.registration.showNotification(notificationTitle, notificationOptions);
     });
   }
 });
