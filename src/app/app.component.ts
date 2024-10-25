@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { FcmMessageService } from 'impactdisciplescommon/src/services/admin/FCMMessageService.service';
+import { FcmMessageService } from 'impactdisciplescommon/src/services/utils/FCMMessageService.service';
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { ScreenService } from 'impactdisciplescommon/src/services/utils/screen.service';
 

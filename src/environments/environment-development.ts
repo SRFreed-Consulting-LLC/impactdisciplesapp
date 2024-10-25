@@ -10,7 +10,8 @@ export const environment = {
     measurementId: "G-KJL13HB8DV"
   },
   domain: 'http://127.0.0.1:8080',
-  session_expires: 30
+  session_expires: 30,
+  application: 'application'
 };
 
 

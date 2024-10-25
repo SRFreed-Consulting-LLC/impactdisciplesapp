@@ -10,7 +10,8 @@ export const environment = {
     measurementId: "G-KJL13HB8DV"
   },
   domain: 'https://impactdisciples-event-app.web.app/',
-  session_expires: 30
+  session_expires: 30,
+  application: 'application'
 };
 
 

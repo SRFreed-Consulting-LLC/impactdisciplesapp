@@ -12,8 +12,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from './admin/admin.module';
 import { LayoutsModule } from 'impactdisciplescommon/src/layouts/layouts.module';
 import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
-import { FormsModule } from 'impactdisciplescommon/src/forms/forms.module';
 import { CoreModule } from './core/core.module';
+import { ImpactFormsModule } from 'impactdisciplescommon/src/forms/forms.module';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CoreModule } from './core/core.module';
       scope: environment.domain,
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    NgxsModule.forRoot([], { developmentMode: !environment.production }),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideMessaging(() => getMessaging()),
@@ -39,7 +41,7 @@ import { CoreModule } from './core/core.module';
     CoreModule,
     FeaturesModule,
     AdminModule,
-    FormsModule,
+    ImpactFormsModule,
     LayoutsModule,
     ImpactDisciplesModule
   ],
