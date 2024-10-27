@@ -10,28 +10,29 @@ import { CreateAuthFormComponent } from 'impactdisciplescommon/src/forms/create-
 import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/reset-password-form/reset-password-form.component';
 import { MainComponent } from './core/main/main.component';
 import { AuthGuardService } from 'impactdisciplescommon/src/services/utils/auth.service';
+import { CoachesComponent } from './features/coaches/coaches.component';
 
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [ AuthGuardService ],
     children: [
       {
         path: 'announcements',
-        component: AnnouncementsComponent,
-        canActivate: [ AuthGuardService ]
+        component: AnnouncementsComponent
       },
       {
         path: 'home',
-        component: HomeComponent,
-        canActivate: [ AuthGuardService ]
+        component: HomeComponent
       },
       {
         path: 'schedule',
-        component: ScheduleComponent,
-        canActivate: [ AuthGuardService ],
+        component: ScheduleComponent
+      },
+      {
+        path: 'coaches',
+        component: CoachesComponent
       },
     ]
   },

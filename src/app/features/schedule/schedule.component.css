@@ -1,0 +1,10 @@
+.frame {
+  display: grid;
+  position: absolute;
+  top: 35px;
+  height: 85vh;
+  width: 100vw;
+  overflow-y: scroll;
+  justify-content: left;
+  align-items: start;
+}

@@ -29,8 +29,9 @@ export class MainComponent implements OnInit{
   constructor(public topNavService: TopNavService, private route: ActivatedRoute, private authService: AuthService, private fcmMessageService: FcmMessageService) {
     this.tabsWithIcon = [
       { id: 0, name:'Home', route:'home', icon: 'home', level: 0},
-      { id: 1, name:'Schedule', route:'schedule', icon: 'toolbox', level: 0},
-      { id: 2, name:'Announcements', route:'announcements', icon: 'user', level: 0}
+      { id: 1, name:'Schedule', route:'schedule', icon: 'event', level: 0},
+      { id: 2, name:'Announcements', route:'announcements', icon: 'comment', level: 0},
+      { id: 2, name:'Coaches', route:'coaches', icon: 'group', level: 0}
     ];
   }
 

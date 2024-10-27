@@ -1,3 +1,30 @@
-<p>
-  schedule works!
-</p>
+<div class="frame" *ngIf="trainingSessions">
+  <div *ngFor="let day of trainingSessions.keys()">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{day}}</h5>
+          <ng-container *ngFor="let session of trainingSessions.get(day)">
+            <hr width="100%">
+            <h6 class="card-title">{{session.startDate | date : 'shortTime'}} - {{session.endDate | date : 'shortTime'}} {{getSessionTitle(session)}}</h6>
+            <ng-container *ngIf="session.courses.length == 1">
+              <p class="card-subtitle mb-2 text-muted" >{{session.description}}</p>
+              <div *ngIf="session.courses[0].coaches && session.courses[0].coaches.length == 1"><b>Coach:</b> {{this.getCoachById(session.courses[0].coaches[0]).fullname}}</div>
+              <div *ngIf="session.courses[0].coaches && session.courses[0].coaches.length > 1"><b>Coaches:</b> {{this.getCoachList(session.courses[0].coaches)}}</div>
+            </ng-container>
+            <ng-container *ngIf="session.courses.length > 1">
+              <div *ngFor="let course of session.courses">
+                <div><h6>{{this.getCourseTitle(this.getCourseById(course.course))}}</h6></div>
+                <div><b>Room:</b> {{this.getRoomById(course.room).name}}</div>
+                <div *ngIf="course.coaches && course.coaches.length == 1"><b>Coach:</b> {{this.getCoachById(course.coaches[0]).fullname}}</div>
+                <div *ngIf="course.coaches && course.coaches.length > 1"><b>Coaches:</b> {{this.getCoachList(course.coaches)}}</div>
+                <div *ngIf="course.maxParticipants > 0"><b>Capacity:</b> {{course.maxParticipants}}</div>
+                <hr width="100%">
+              </div>
+            </ng-container>
+
+          </ng-container>
+        </div>
+      </div>
+  </div>
+</div>

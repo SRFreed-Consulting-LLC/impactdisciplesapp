@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
+import { DataService } from 'src/app/admin/data.service';
 
 @Component({
   selector: 'app-home',
@@ -6,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  event: Promise<EventModel>;
 
-  public navigator: Navigator;
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.event =  this.dataService.event;
   }
 
 }

@@ -1,0 +1,33 @@
+<div class="frame">
+  <div class= container>
+    <dx-accordion
+      #accordion
+      [dataSource]="coaches"
+      [collapsible]="true"
+      [multiple]="false"
+      [animationDuration]="300"
+      [selectedIndex]="-1"
+      id="accordion-container">
+      <div *dxTemplate="let coach of 'title'">
+        <div class="row" style="width: 90vw;">
+          <div class="col-6">
+              <img class="transform" [src]="coach.photoUrl.url" [alt]="coach.firstName" height="150" width="150">
+          </div>
+
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12"><h5>{{ coach.firstName }} {{ coach.lastName }}</h5></div>
+            </div>
+            <div class="row">
+              <div class="col-12" [innerHTML]="coach.title"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *dxTemplate="let coach of 'item'">
+        <div [innerHTML]="coach.bio"></div>
+        <a [href]="coach.url" class="coach-link">Link to page</a>
+      </div>
+    </dx-accordion>
+  </div>
+</div>
