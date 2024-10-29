@@ -11,12 +11,15 @@ import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/rese
 import { MainComponent } from './core/main/main.component';
 import { AuthGuardService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { CoachesComponent } from './features/coaches/coaches.component';
+import { AppAuthGuardService } from './core/app-auth-guard.service';
+import { EventSelectorComponent } from './core/event-selector/event-selector.component';
 
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
+    canActivate: [ AppAuthGuardService ],
     children: [
       {
         path: 'announcements',
@@ -37,6 +40,10 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'event-selector',
+    component: EventSelectorComponent,
+    canActivate: [ AppAuthGuardService ]
+  }, {
     path: 'capture-username-form',
     component: CaptureUsernameFormComponent,
     canActivate: [ AuthGuardService ]

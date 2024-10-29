@@ -1,0 +1,33 @@
+
+<div class="frame" *ngIf="registeredEventsList">
+  <div class= container>
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6 logo-image">
+        <img src="https://firebasestorage.googleapis.com/v0/b/impactdisciples-a82a8.appspot.com/o/Logos%2FImpact-Logo_Black.png?alt=media&token=2a2452b7-a337-476f-b268-d0a4b0fa5d42" height="auto" width="80%">
+      </div>
+      <div class="col-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5>It appears you are registered for more than 1 event.</h5>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <h5>Please select which event you wish to load now.</h5>
+      </div>
+    </div>
+    <div class="row" *ngFor="let event of this.registeredEventsList">
+      <div class="col-12 pb-2">
+        <dx-button
+          [width]="'100%'"
+          stylingMode="contained"
+          type="normal"
+          [text]="event.eventName"
+          (onClick)="this.selectEvent(event)">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</div>

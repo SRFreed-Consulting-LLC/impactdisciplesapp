@@ -1,0 +1,61 @@
+<div class="frame" *ngIf="event">
+  <div *ngFor="let day of trainingDays">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{day.date | date : 'fullDate'}}</h5>
+          <ng-container *ngFor="let session of day.sessions">
+            <hr width="100%">
+            <h6 class="card-title">{{session.date | date : 'shortTime'}} - {{session.date | date : 'shortTime'}}</h6>
+            <ng-container *ngIf="session.courses.length == 1">
+              <p class="card-subtitle mb-2 text-muted" >{{session.description}}</p>
+              <div *ngIf="session.courses[0].coaches && session.courses[0].coaches.length == 1"><b>Coach:</b> {{this.getCoachName(session.courses[0].coaches[0])}}</div>
+              <div *ngIf="session.courses[0].coaches && session.courses[0].coaches.length > 1"><b>Coaches:</b> {{this.getCoachList(session.courses[0].coaches)}}</div>
+            </ng-container>
+            <ng-container *ngIf="session.courses.length > 1">
+              <div *ngFor="let agendaItem of session.courses" (click)="viewCourse(agendaItem)">
+                <div><h6>{{this.getCourseTitle(this.getCourseById(agendaItem.course))}}</h6></div>
+                <div><b>Room:</b> {{this.getRoomName(agendaItem.room)}}</div>
+                <div *ngIf="agendaItem.coaches && agendaItem.coaches.length == 1"><b>Coach:</b> {{this.getCoachName(agendaItem.coaches[0])}}</div>
+                <div *ngIf="agendaItem.coaches && agendaItem.coaches.length > 1"><b>Coaches:</b> {{this.getCoachList(agendaItem.coaches)}}</div>
+                <div *ngIf="agendaItem.maxParticipants > 0"><b>Capacity:</b> {{agendaItem.maxParticipants}}</div>
+                <hr width="100%">
+              </div>
+            </ng-container>
+
+          </ng-container>
+        </div>
+      </div>
+  </div>
+</div>
+
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [visible]="isVisible$ | async"
+  [width]="'90%'"
+  [height]="'90%'"
+  [showCloseButton]="true"
+  (onHiding)="onCancel()">
+  <div class="row pb-3" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div class="row">
+        <div class="col-12"><h5>{{ selecectedCourse.title}}</h5></div>
+      </div>
+      <div class="row">
+        <div class="col-12">{{'- ' + this.getCoachName(this.selectedAgendaItem.coaches[0])}}</div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <div class="row pb-2" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-1"></div>
+    <div class="col-10">{{selecectedCourse.shortDescription}}</div>
+    <div class="col-1"></div>
+  </div>
+  <div class="row" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-1"></div>
+    <div class="col-10"></div>
+    <div class="col-1"></div>
+  </div>
+</dx-popup>

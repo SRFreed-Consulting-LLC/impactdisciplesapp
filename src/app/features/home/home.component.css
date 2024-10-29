@@ -1,11 +1,13 @@
 .frame {
-  display: grid;
-  position: absolute;
-  top: 35px;
   height: 85vh;
   width: 100vw;
   overflow-y: scroll;
-  justify-content: center;
+  justify-content: top;
   justify-items: center;
   align-items: start;
+}
+
+#withIconAndText{
+  position: absolute;
+  top: 30px;
 }

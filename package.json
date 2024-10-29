@@ -2,16 +2,20 @@
   "name": "impactdisciples",
   "version": "0.0.0",
   "scripts": {
-    "start": "ng serve",
-    "start-pwa": "ng build --configuration=development && http-server -p 8080 -c-1 dist/impactdisciples",
-    "build-dev": "ng build --configuration=development",
-    "build-prod": "ng build --configuration=production",
-    "build-deploy": "ng build --configuration=production && firebase deploy --only hosting:impactdisciples-event-app",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "deploy": "firebase deploy --only hosting:impactdisciples-event-app",
+    "start-local": "ng serve --configuration=local",
+    "start-local-pwa": "ng build --configuration=local && http-server -p 8080 -c-1 dist/impactdisciplesapp",
+    "build-local": "ng build --configuration=local",
+
+    "start-dev": "ng serve --configuration=development",
+    "start-dev-pwa": "ng build --configuration=development && http-server -p 8080 -c-1 dist/impactdisciplesapp",
+    "build-deploy-dev": "ng build --configuration=development && firebase use impactdisciplesdev && firebase deploy --only hosting:development",
+
+    "start-prod": "ng serve --configuration=production",
+    "start-prod-pwa": "ng build --configuration=production && http-server -p 8080 -c-1 dist/impactdisciplesapp",
+    "build-deploy-prod": "ng build --configuration=production && firebase use impactdisciples-a82a8 && firebase deploy --only hosting:production",
+
     "add-git-submodule": "git submodule add -b development https://github.com/SRFreed-Consulting-LLC/impactdisciplescommon.git",
-    "init-git-submodules": "git submodule update --init && git submodule update --init --recursive && git submodule status --recursive"
+    "init-git-submodules": "git submodule update --init --recursive && git submodule status --recursive"
   },
   "private": true,
   "dependencies": {

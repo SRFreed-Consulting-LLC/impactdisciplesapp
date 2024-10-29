@@ -3,22 +3,35 @@ import { CommonModule } from '@angular/common';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { HomeComponent } from './home/home.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { DxAccordionModule, DxSchedulerModule } from 'devextreme-angular';
+import { DxAccordionModule, DxButtonModule, DxPopupModule, DxSchedulerModule, DxTabsModule } from 'devextreme-angular';
 import { RouterModule } from '@angular/router';
 import { CoachesComponent } from './coaches/coaches.component';
+import { FormsModule } from '@angular/forms';
+import { FaqComponent } from './home/faq/faq.component';
+import { WelcomeComponent } from './home/welcome/welcome.component';
+import { SessionsScheduleComponent } from './schedule/sessions-schedule/sessions-schedule.component';
+import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.component';
 
 @NgModule({
   declarations: [
     AnnouncementsComponent,
     HomeComponent,
     ScheduleComponent,
-    CoachesComponent
+    CoachesComponent,
+    FaqComponent,
+    WelcomeComponent,
+    SessionsScheduleComponent,
+    MyScheduleComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
+    DxButtonModule,
     DxSchedulerModule,
-    DxAccordionModule
+    DxAccordionModule,
+    DxPopupModule,
+    DxTabsModule
   ]
 })
 export class FeaturesModule { }

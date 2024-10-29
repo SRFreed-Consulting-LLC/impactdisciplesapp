@@ -2,8 +2,9 @@ import { DataService } from './../../admin/data.service';
 import { Component, OnInit } from '@angular/core';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
+import { OrganizationModel } from 'impactdisciplescommon/src/models/domain/organization.model';
 import { CoachService } from 'impactdisciplescommon/src/services/data/coach.service';
-import { forkJoin } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-coaches',
@@ -12,14 +13,20 @@ import { forkJoin } from 'rxjs';
 })
 export class CoachesComponent implements OnInit{
   event: EventModel;
-  coaches: CoachModel[] = [];
+  coaches: CoachModel[];
+  selectedCoach: CoachModel;
+  organizations: OrganizationModel[];
+
+  public isVisible$ = new BehaviorSubject<boolean>(false);
 
   constructor(private dataService: DataService,
-    private coachService: CoachService
+    private coachService: CoachService,
   ){}
 
   async ngOnInit(): Promise<void> {
-    this.event =  await this.dataService.event;
+    this.event =  await this.dataService.getEvent();
+
+    this.organizations = this.dataService.getOrganizations();
 
     const coachIds = Array.from(
       new Set(
@@ -33,6 +40,29 @@ export class CoachesComponent implements OnInit{
       forkJoin(coachObservables).subscribe((coaches) => {
         this.coaches = coaches;
       });
+    }
+  }
+
+  viewCoach(coach: CoachModel){
+    this.selectedCoach = coach;
+
+    this.isVisible$.next(true);
+  }
+
+  onCancel(){
+    this.isVisible$.next(false);
+  }
+
+  getOrganization(coach: CoachModel){
+    if(coach.organization){
+      let organization = this.organizations.find(organization => organization.id == coach.organization);
+      if(organization){
+        return organization.name
+      } else {
+        return '';
+      }
+    } else {
+      return '';
     }
   }
 }

@@ -3,9 +3,9 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting": {
-    "site": "impactdisciples-event-app",
-    "public": "dist/impactdisciples",
+  "hosting": [{
+    "target": "production",
+    "public": "dist/impactdisciplesapp",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -17,5 +17,19 @@
         "destination": "/index.html"
       }
     ]
-  }
+  },{
+    "target": "development",
+    "public": "dist/impactdisciplesapp",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }]
 }

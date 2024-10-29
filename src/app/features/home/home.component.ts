@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
+import { Tab } from 'impactdisciplescommon/src/models/utils/tab.model';
 import { DataService } from 'src/app/admin/data.service';
 
 @Component({
@@ -8,12 +9,24 @@ import { DataService } from 'src/app/admin/data.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  event: Promise<EventModel>;
+  event: EventModel;
+
+  selectedIndex: number = 0;
+  selectedTab: string = 'Welcome';
+
+  tabs: Tab[] = [
+    { id: 0, text: 'Welcome', template: 'Welcome',  icon: 'user' },
+    { id: 1, text: 'FAQ', template: 'FAQ', icon: 'user' },
+  ];
 
   constructor(private dataService: DataService) { }
 
-  ngOnInit() {
-    this.event =  this.dataService.event;
+  async ngOnInit() {
+    this.event = await this.dataService.getEvent();
   }
 
+
+  selectTab(e) {
+    this.selectedTab = e.itemData.template;
+  }
 }
