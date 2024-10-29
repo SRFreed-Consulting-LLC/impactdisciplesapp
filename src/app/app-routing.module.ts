@@ -41,8 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'event-selector',
-    component: EventSelectorComponent,
-    canActivate: [ AppAuthGuardService ]
+    component: EventSelectorComponent
   }, {
     path: 'capture-username-form',
     component: CaptureUsernameFormComponent,
