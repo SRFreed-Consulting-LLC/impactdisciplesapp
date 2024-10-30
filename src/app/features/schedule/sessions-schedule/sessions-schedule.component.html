@@ -5,7 +5,7 @@
           <h5 class="card-title">{{day.date | date : 'fullDate'}}</h5>
           <ng-container *ngFor="let session of day.sessions">
             <hr width="100%">
-            <h6 class="card-title">{{session.date | date : 'shortTime'}} - {{session.date | date : 'shortTime'}}</h6>
+            <h6 class="card-title">{{session.startTime | date : 'shortTime'}} - {{session.endTime | date : 'shortTime'}}</h6>
             <ng-container *ngIf="session.courses.length == 1">
               <p class="card-subtitle mb-2 text-muted" >{{session.description}}</p>
               <div *ngIf="session.courses[0].coaches && session.courses[0].coaches.length == 1"><b>Coach:</b> {{this.getCoachName(session.courses[0].coaches[0])}}</div>

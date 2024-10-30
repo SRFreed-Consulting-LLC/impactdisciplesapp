@@ -104,7 +104,7 @@ export class SessionsScheduleComponent implements OnInit {
     let sessions: TrainingDay[] = [];
 
     this.event.agendaItems.forEach(item => {
-      let trainingDay: TrainingDay = sessions.find(s => s.date.toDateString() == item.startDate.toDateString());
+      let trainingDay: TrainingDay = sessions.find(s => new Date(s.date).toDateString() == new Date(item.startDate).toDateString());
 
       if(!trainingDay){
         trainingDay = new TrainingDay();
@@ -112,7 +112,7 @@ export class SessionsScheduleComponent implements OnInit {
         sessions.push(trainingDay);
       }
 
-      let trainingSession: TrainingSession = trainingDay.sessions.find(s => s.date.toISOString() == item.startDate.toISOString())
+      let trainingSession: TrainingSession = trainingDay.sessions.find(s => new Date(s.date).toISOString() == new Date(item.startDate).toISOString())
 
       if(trainingSession){
         trainingSession.courses.push(item)
@@ -130,7 +130,7 @@ export class SessionsScheduleComponent implements OnInit {
     })
 
     sessions.forEach(day => {
-      day.sessions.sort((a,b) => a.date.toISOString().localeCompare(b.date.toISOString()));
+      day.sessions.sort((a,b) => new Date(a.date).toISOString().localeCompare(new Date(b.date).toISOString()));
 
       day.sessions.forEach(ts => {
         if(ts.courses.length == 1){
