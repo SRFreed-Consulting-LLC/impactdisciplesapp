@@ -1,0 +1,75 @@
+@import '../../../assets/styles/variables.scss';
+
+.user-profile {
+  height: 93vh;
+  width: 100vw;
+  overflow-y: scroll;
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__header {
+    background-color: $primary;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    &-icon {
+      background-color: $secondary;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      width: 100px;
+      height: 100px;
+      i {
+        font-size: 50px;
+        padding: 20px 25px;
+        border-radius: 50%;
+        color: #ffffff;
+      }
+    }
+  }
+  &__info {
+    padding: 20px;
+    width: 100%;
+    &-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 12px;
+      .title {
+        font-weight: 700;
+      }
+      .user {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin: 0 20px;
+      }
+    }
+  }
+  &__menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    &-item {
+      border-bottom: 1px solid $border;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: $primary !important;
+      .title {
+        font-weight: 700;
+        word-spacing: 1.2px;
+      }
+    }
+    &-item:last-child {
+      color: $secondary !important;
+    }
+  }
+}

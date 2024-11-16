@@ -1,22 +1,107 @@
-<dx-tabs
-  #withIconAndText
-  [width]="'100%'"
-  [selectedIndex]="0"
-  [showNavButtons]="true"
-  [dataSource]="tabs"
-  [(selectedIndex)]="selectedIndex"
-  (onItemClick)="selectTab($event)"
-  [stylingMode]="'primary'"
-  [iconPosition]="'start'">
-</dx-tabs>
+<div class="home">
+  <img width="100%" [src]="event?.imageUrl?.url" alt="Card image cap">
 
-<div class="frame" *ngIf="event">
-  <ng-template [ngIf]="selectedTab == 'Welcome'">
-    <app-welcome [event]="event"></app-welcome>
-  </ng-template>
+  <!--TODO: Add logic for showing the next event on the user's schedule-->
+  <!--TODO: Add click to see session details-->
+  <div class="next-session">
+    <div class="next-session__wrapper">
+      <i class="fas fa-business-time"></i>
+      <div class="next-session__info">
+        <div class="next-session__info-pretitle">UPCOMING</div>
+        <div class="next-session__info-title">Disciple-Making & Recovery</div>
+        <div class="next-session__info-details">
+          <div class="time"><strong>Time:</strong>9:00am - 10:00am</div>
+          <div class="time"><strong>Place:</strong>Studio 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <ng-template [ngIf]="selectedTab == 'FAQ'">
-    <app-faq [event]="event"></app-faq>
-  </ng-template>
+  <div class="home-menu">
+    <div class="home-menu__row">
+      <a href="#" class="home-menu__item">
+        <i class="fas fa-check-circle"></i>
+        <div class="home-menu__item-text">On Arrival</div>
+      </a>
+      <div class="home-menu__item" (click)="scrollToToday()">
+        <i class="fas fa-forward"></i>
+        <div class="home-menu__item-text">What's Next</div>
+      </div>
+      <a href="/schedule" class="home-menu__item">
+        <i class="fas fa-calendar-day"></i>
+        <div class="home-menu__item-text">Schedule</div>
+      </a>
+    </div>
+    <div class="home-menu__row">
+      <a href="/coaches" class="home-menu__item">
+        <i class="fas fa-user-tie"></i>
+        <div class="home-menu__item-text">Coaches</div>
+      </a>
+      <a href="#" class="home-menu__item">
+        <i class="fas fa-utensils"></i>
+        <div class="home-menu__item-text">Dining</div>
+      </a>
+      <a href="#" class="home-menu__item">
+        <i class="fas fa-question-circle"></i>
+        <div class="home-menu__item-text">FAQs</div>
+      </a>
+    </div>
+  </div>
+
+  <!--TODO: Return announcements from event-->
+  <!--TODO: Add click to see full announcement-->
+  <div class="announcements" *ngIf="event">
+    <div class="announcements__header">Announcements</div>
+    <div class="announcements__wrapper">
+      <div
+        *ngFor="let announcement of announcements"
+        class="announcements__item"
+      >
+        <div class="announcements__item-title">{{ announcement.header }}</div>
+        <div class="announcements__item-text">{{ announcement.text }}</div>
+        <div class="announcements__item-footer">
+          <div class="announcements__item-time">{{ announcement.time | date: 'EEE h:mm a' }}</div>
+          <i class="fas fa-eye"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--TODO: Get year from event date-->
+  <div class="welcome">
+    <div class="welcome__header">
+      <img src="../../../assets/icons/Impact-Logo_Light.png" width="40px" height="40px">
+      <div class="welcome__pretitle">WELCOME TO THE 2024</div>
+      <div class="welcome__title">{{ event?.eventName }}</div>
+    </div>
+    <div class="welcome__text">{{ event?.description }}</div>
+    <div class="coaches" *ngIf="event">
+      <div class="coaches__header">Speakers</div>
+      <div class="coaches__wrapper">
+        <div *ngFor="let coach of coaches" class="coaches__item">
+          <div class="coaches__item-image fix">
+            <img class="transform" [src]="coach.photoUrl.url" [alt]="coach.firstName" width="50px" height="50px">
+          </div>
+          <div class="coaches__item-name">{{ coach.firstName }} {{ coach.lastName }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--TODO: Get 'Whats Next' from event-->
+  <div class="today" #today>
+    <div class="today__header">
+      <div class="today__header-title">What to Know</div>
+      <div class="today__header-subtitle">Day 2 <i class="fas fa-forward"></i></div>
+      <hr class="custom-hr">
+      <div class="today__header-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+    </div>
+    <div class="today__item">
+      <div class="today__item-title">Morning Preperation!</div>
+      <div class="today__item-text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </div>
+    </div>
+  </div>
 
 </div>

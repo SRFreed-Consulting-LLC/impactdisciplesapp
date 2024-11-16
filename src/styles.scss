@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/ngx-toastr/toastr.css';
+@import './assets/theme/css/fontAwesome5Pro.css';
 
+:host {
+  height: 100%;
+}
+
+
+//toaster
 toast-container {
   background-image: linear-gradient(purple,red) !important;
   border-radius: 22px !important;

@@ -13,6 +13,7 @@ import { AuthGuardService } from 'impactdisciplescommon/src/services/utils/auth.
 import { CoachesComponent } from './features/coaches/coaches.component';
 import { AppAuthGuardService } from './core/app-auth-guard.service';
 import { EventSelectorComponent } from './core/event-selector/event-selector.component';
+import { UserProfileComponent } from './features/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'coaches',
         component: CoachesComponent
+      },
+      {
+        path: 'user-profile',
+        component: UserProfileComponent
       },
     ]
   },

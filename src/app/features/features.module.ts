@@ -11,6 +11,8 @@ import { FaqComponent } from './home/faq/faq.component';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { SessionsScheduleComponent } from './schedule/sessions-schedule/sessions-schedule.component';
 import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.component';
+import { SharedModule } from '../shared/shared.module';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.componen
     WelcomeComponent,
     SessionsScheduleComponent,
     MyScheduleComponent,
+    UserProfileComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,8 @@ import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.componen
     DxSchedulerModule,
     DxAccordionModule,
     DxPopupModule,
-    DxTabsModule
+    DxTabsModule,
+    SharedModule
   ]
 })
 export class FeaturesModule { }
