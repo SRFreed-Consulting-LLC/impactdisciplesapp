@@ -14,7 +14,9 @@ import { CoachesComponent } from './features/coaches/coaches.component';
 import { AppAuthGuardService } from './core/app-auth-guard.service';
 import { EventSelectorComponent } from './core/event-selector/event-selector.component';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
-
+import { OnArrivalComponent } from './features/on-arrival/on-arrival.component';
+import { DiningComponent } from './features/dining/dining.component';
+import { FaqComponent } from './features/faq/faq.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,18 @@ const routes: Routes = [
       {
         path: 'user-profile',
         component: UserProfileComponent
+      },
+      {
+        path: 'on-arrival',
+        component: OnArrivalComponent
+      },
+      {
+        path: 'dining',
+        component: DiningComponent
+      },
+      {
+        path: 'faq',
+        component: FaqComponent
       },
     ]
   },
