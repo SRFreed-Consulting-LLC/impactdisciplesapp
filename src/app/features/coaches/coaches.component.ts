@@ -9,7 +9,7 @@ import { BehaviorSubject, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-coaches',
   templateUrl: './coaches.component.html',
-  styleUrls: ['./coaches.component.css']
+  styleUrls: ['./coaches.component.scss']
 })
 export class CoachesComponent implements OnInit{
   event: EventModel;

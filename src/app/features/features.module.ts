@@ -7,10 +7,14 @@ import { DxAccordionModule, DxButtonModule, DxPopupModule, DxSchedulerModule, Dx
 import { RouterModule } from '@angular/router';
 import { CoachesComponent } from './coaches/coaches.component';
 import { FormsModule } from '@angular/forms';
-import { FaqComponent } from './home/faq/faq.component';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { SessionsScheduleComponent } from './schedule/sessions-schedule/sessions-schedule.component';
 import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.component';
+import { SharedModule } from '../shared/shared.module';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { OnArrivalComponent } from './on-arrival/on-arrival.component';
+import { DiningComponent } from './dining/dining.component';
+import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -18,10 +22,13 @@ import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.componen
     HomeComponent,
     ScheduleComponent,
     CoachesComponent,
-    FaqComponent,
     WelcomeComponent,
     SessionsScheduleComponent,
     MyScheduleComponent,
+    UserProfileComponent,
+    OnArrivalComponent,
+    DiningComponent,
+    FaqComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +38,8 @@ import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.componen
     DxSchedulerModule,
     DxAccordionModule,
     DxPopupModule,
-    DxTabsModule
+    DxTabsModule,
+    SharedModule
   ]
 })
 export class FeaturesModule { }

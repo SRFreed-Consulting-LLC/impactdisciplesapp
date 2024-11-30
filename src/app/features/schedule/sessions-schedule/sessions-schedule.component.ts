@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-session-schedule',
   templateUrl: './sessions-schedule.component.html',
-  styleUrls: ['./sessions-schedule.component.css']
+  styleUrls: ['./sessions-schedule.component.scss']
 })
 export class SessionsScheduleComponent implements OnInit {
   @Input('event') event: EventModel;
@@ -25,6 +25,8 @@ export class SessionsScheduleComponent implements OnInit {
   selectedAgendaItem: AgendaItem;
   selecectedCourse: CourseModel;
 
+  groupedAgendaItems: { monthYear: string; days: { date: Date; items: AgendaItem[] }[] }[] = [];
+
   public isVisible$ = new BehaviorSubject<boolean>(false);
 
   getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
@@ -37,7 +39,9 @@ export class SessionsScheduleComponent implements OnInit {
     if(!this.event.agendaItems){
       this.event.agendaItems = [];
     } else {
-      this.trainingDays = this.assemble()
+      // this.trainingDays = this.assemble()
+      console.log(this.event)
+      this.groupAgendaItemsByMonthAndDate(this.event.agendaItems)
     }
 
     this.courses = this.dataService.getCourses();
@@ -100,6 +104,37 @@ export class SessionsScheduleComponent implements OnInit {
     this.isVisible$.next(false);
   }
 
+  private groupAgendaItemsByMonthAndDate(agendaItems: AgendaItem[]) {
+    const sessions = agendaItems.filter((item) => item.coaches?.length > 0)
+    sessions.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
+    const groupedByMonthYear = sessions.reduce((acc, item) => {
+      const monthYearKey = new Date(item.startDate).toLocaleString('default', { month: 'long', year: 'numeric' });
+      const dateKey = new Date(item.startDate).toDateString();
+
+      if (!acc[monthYearKey]) {
+        acc[monthYearKey] = {};
+      }
+
+      if (!acc[monthYearKey][dateKey]) {
+        acc[monthYearKey][dateKey] = [];
+      }
+
+      acc[monthYearKey][dateKey].push(item);
+      return acc;
+    }, {} as { [monthYear: string]: { [date: string]: AgendaItem[] } });
+
+    this.groupedAgendaItems = Object.keys(groupedByMonthYear).map(monthYear => ({
+      monthYear: monthYear,
+      days: Object.keys(groupedByMonthYear[monthYear])
+        .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+        .map(date => ({
+          date: new Date(date),
+          items: groupedByMonthYear[monthYear][date],
+        })),
+    }));
+  }
+
   assemble(){
     let sessions: TrainingDay[] = [];
 
@@ -141,7 +176,7 @@ export class SessionsScheduleComponent implements OnInit {
         }
       })
     })
-
+    console.log(sessions)
     return sessions;
   }
 }

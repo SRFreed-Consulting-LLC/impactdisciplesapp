@@ -1,0 +1,35 @@
+@import '../../../assets/styles/variables.scss';
+
+.faq {
+  height: 93vh;
+  width: 100vw;
+  overflow-y: scroll;
+  &__header {
+    background-color: $primary;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    text-align: center;
+  }
+  &__logo-wrapper {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  &__title {
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 23px;
+    letter-spacing: 1.3px;
+  }
+  &__list {
+    margin: 20px;
+    &-item {
+      .question {
+        font-size: 20px;
+        font-weight: 800;
+      }
+    }
+  }
+}

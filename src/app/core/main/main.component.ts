@@ -27,8 +27,8 @@ export class MainComponent implements OnInit{
   tabsWithIcon: RouteItem[]=[
     { id: 0, name:'Home', route:'home', icon: 'home', level: 0},
     { id: 1, name:'Schedule', route:'schedule', icon: 'event', level: 0},
-    { id: 2, name:'Announcements', route:'announcements', icon: 'comment', level: 0},
-    { id: 2, name:'Coaches', route:'coaches', icon: 'group', level: 0}
+    { id: 2, name:'Map', route:'map', icon: 'fas fa-map-marked-alt', level: 0},
+    { id: 2, name:'User', route:'user-profile', icon: 'user', level: 0}
   ];
 
   constructor(public topNavService: TopNavService,

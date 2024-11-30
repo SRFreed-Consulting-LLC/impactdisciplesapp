@@ -15,6 +15,7 @@ import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples
 import { CoreModule } from './core/core.module';
 import { ImpactFormsModule } from 'impactdisciplescommon/src/forms/forms.module';
 import { NgxsModule } from '@ngxs/store';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { NgxsModule } from '@ngxs/store';
     LayoutsModule,
     ImpactDisciplesModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
