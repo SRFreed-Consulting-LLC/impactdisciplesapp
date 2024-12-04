@@ -1,7 +1,7 @@
 .frame {
   height: 85vh;
   width: 100vw;
-  overflow-y: scroll;
+  overflow-y: none;
   justify-content: left;
   align-items: start;
 }

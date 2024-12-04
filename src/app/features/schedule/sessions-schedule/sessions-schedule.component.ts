@@ -8,6 +8,20 @@ import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda
 import { DataService } from 'src/app/admin/data.service';
 import { BehaviorSubject } from 'rxjs';
 
+export class TrainingDay{
+  date: Date;
+  sessions: TrainingSession[] = [];
+
+}
+export class TrainingSession{
+  date: Date;
+  startTime: Date;
+  endTime: Date;
+  title: string;
+  description: string;
+  courses: AgendaItem[] = [];
+}
+
 @Component({
   selector: 'app-session-schedule',
   templateUrl: './sessions-schedule.component.html',
@@ -23,7 +37,7 @@ export class SessionsScheduleComponent implements OnInit {
   roomsList: TrainingRoomModel[] = []
 
   selectedAgendaItem: AgendaItem;
-  selecectedCourse: CourseModel;
+  activeDay: any;
 
   groupedAgendaItems: { monthYear: string; days: { date: Date; items: AgendaItem[] }[] }[] = [];
 
@@ -49,6 +63,24 @@ export class SessionsScheduleComponent implements OnInit {
     this.coachesList = this.dataService.getCoaches();
 
     this.roomsList = this.dataService.getRooms();
+    this.preselectActiveDay();
+  }
+
+  addCourse(course: AgendaItem) {
+    //TODO: assign course to user
+  }
+
+  preselectActiveDay() {
+    const today = new Date();
+    const futureDates = this.groupedAgendaItems
+      .flatMap((monthGroup: any) => monthGroup.days)
+      .filter((dayGroup: any) => new Date(dayGroup.date) >= today);
+
+    this.activeDay = futureDates.length > 0 ? futureDates[0] : this.groupedAgendaItems[0]?.days[0];
+  }
+
+  setActiveDay(dayGroup: any) {
+    this.activeDay = dayGroup;
   }
 
   getCourseTitle(course:CourseModel){
@@ -59,11 +91,41 @@ export class SessionsScheduleComponent implements OnInit {
     }
   }
 
+  getCourseDescription(id: string) {
+    let course: CourseModel = this.getCourseById(id);
+
+    if(course){
+      return course.longDescription ? course.longDescription : course.shortDescription
+    } else {
+      return '';
+    }
+  }
+
   getCoachName(id: string){
     let coach: CoachModel = this.getCoachById(id);
 
     if(coach){
       return coach.fullname
+    } else {
+      return '';
+    }
+  }
+
+  getCoachImg(id: string){
+    let coach: CoachModel = this.getCoachById(id);
+
+    if(coach){
+      return coach.photoUrl.url
+    } else {
+      return '';
+    }
+  }
+
+  getCoachTitle(id: string){
+    let coach: CoachModel = this.getCoachById(id);
+
+    if(coach){
+      return coach.title
     } else {
       return '';
     }
@@ -91,12 +153,7 @@ export class SessionsScheduleComponent implements OnInit {
 
   viewCourse(item:AgendaItem){
     this.selectedAgendaItem = item;
-    let course: CourseModel = this.getCourseById(item.course);
-
-    if(course){
-      this.selecectedCourse = course;
-    }
-
+    console.log(item)
     this.isVisible$.next(true);
   }
 
@@ -105,7 +162,7 @@ export class SessionsScheduleComponent implements OnInit {
   }
 
   private groupAgendaItemsByMonthAndDate(agendaItems: AgendaItem[]) {
-    const sessions = agendaItems.filter((item) => item.coaches?.length > 0)
+    const sessions = agendaItems
     sessions.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
     const groupedByMonthYear = sessions.reduce((acc, item) => {
@@ -179,18 +236,4 @@ export class SessionsScheduleComponent implements OnInit {
     console.log(sessions)
     return sessions;
   }
-}
-
-export class TrainingDay{
-  date: Date;
-  sessions: TrainingSession[] = [];
-
-}
-export class TrainingSession{
-  date: Date;
-  startTime: Date;
-  endTime: Date;
-  title: string;
-  description: string;
-  courses: AgendaItem[] = [];
 }
