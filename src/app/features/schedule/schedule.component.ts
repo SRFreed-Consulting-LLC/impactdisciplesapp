@@ -12,11 +12,11 @@ export class ScheduleComponent implements OnInit {
   event: EventModel;
 
   selectedIndex: number = 0;
-  selectedTab: string = 'Sessions';
+  selectedTab: string = 'Schedule';
 
   tabs: Tab[] = [
-    { id: 0, text: 'Sessions', template: 'Sessions',  icon: 'user' },
-    { id: 1, text: 'My Schedule', template: 'My Schedule', icon: 'user' },
+    { id: 0, text: 'Schedule', template: 'Schedule',  icon: 'user' },
+    { id: 1, text: 'My Sessions', template: 'My Sessions', icon: 'user' },
   ];
 
   constructor(private dataService: DataService) { }

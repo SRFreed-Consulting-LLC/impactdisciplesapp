@@ -11,12 +11,12 @@
 </dx-tabs>
 
 <div class="frame" *ngIf="event">
-  <ng-template [ngIf]="selectedTab == 'Sessions'">
+  <ng-template [ngIf]="selectedTab == 'Schedule'">
     <app-session-schedule [event]="event"></app-session-schedule>
   </ng-template>
 
-  <ng-template [ngIf]="selectedTab == 'My Schedule'">
-    <app-my-schedule [event]="event"></app-my-schedule>
+  <ng-template [ngIf]="selectedTab == 'My Sessions'">
+    <app-my-sessions [event]="event"></app-my-sessions>
   </ng-template>
 
 </div>

@@ -17,6 +17,7 @@ import { UserProfileComponent } from './features/user-profile/user-profile.compo
 import { OnArrivalComponent } from './features/on-arrival/on-arrival.component';
 import { DiningComponent } from './features/dining/dining.component';
 import { FaqComponent } from './features/faq/faq.component';
+import { PrivatePolicyComponent } from './features/private-policy/private-policy.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
       {
         path: 'faq',
         component: FaqComponent
+      },
+      {
+        path: 'policy',
+        component: PrivatePolicyComponent
       },
     ]
   },

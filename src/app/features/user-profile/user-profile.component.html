@@ -10,22 +10,22 @@
     <div class="user-profile__info">
       <div class="user-profile__info-section">
         <div class="title">Name</div>
-        <div class="user">Gabby Freed</div>
+        <div class="user">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
         <i class="fas fa-pen"></i>
       </div>
       <div class="user-profile__info-section">
         <div class="title">Email</div>
-        <div class="user">gabby.freed.srfreedconsulting.comdafdsfaffsfdfsafdsff</div>
+        <div class="user">{{ currentUser?.email }}</div>
         <i class="fas fa-pen"></i>
       </div>
       <div class="user-profile__info-section">
         <div class="title">Phone</div>
-        <div class="user">678-621-3196</div>
+        <div class="user">{{ currentUser?.phone }}</div>
         <i class="fas fa-pen"></i>
       </div>
     </div>
     <div class="user-profile__menu">
-      <a class="user-profile__menu-item">
+      <a href="/schedule" class="user-profile__menu-item">
         <div class="title">My Schedule</div>
         <i class="fas fa-chevron-right"></i>
       </a>
@@ -33,15 +33,15 @@
         <div class="title">Breakouts</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a class="user-profile__menu-item">
+      <a href="/event-selector" class="user-profile__menu-item">
         <div class="title">View All Events</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a class="user-profile__menu-item">
+      <a href="/faq" class="user-profile__menu-item">
         <div class="title">FAQ</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a class="user-profile__menu-item">
+      <a href="policy" class="user-profile__menu-item">
         <div class="title">Privacy & Terms</div>
         <i class="fas fa-chevron-right"></i>
       </a>
