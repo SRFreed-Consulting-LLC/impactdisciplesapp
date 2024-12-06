@@ -18,14 +18,14 @@
         <h5>Please select which event you wish to load now.</h5>
       </div>
     </div>
-    <div class="row" *ngFor="let event of this.registeredEventsList">
+    <div class="row" *ngFor="let event of registeredEventsList">
       <div class="col-12 pb-2">
         <dx-button
           [width]="'100%'"
           stylingMode="contained"
           type="normal"
           [text]="event.eventName"
-          (onClick)="this.selectEvent(event)">
+          (onClick)="selectEvent(event)">
         </dx-button>
       </div>
     </div>
