@@ -1,3 +1,4 @@
+import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { DataService } from './../../admin/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -22,7 +23,8 @@ export class EventSelectorComponent implements OnInit {
   constructor(private cookieService: CookieService,
     private eventService: EventService,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private authService: AuthService
   ) { }
 
   async ngOnInit() {
@@ -47,12 +49,12 @@ export class EventSelectorComponent implements OnInit {
     this.dataService.initializeEvent(event);
     this.setUserCookie(event);
     this.router.navigate(['home'])
-
   }
 
   setUserCookie(event:EventModel){
     let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == event.id);
-    this.cookieService.set(COOKIE_NAME, JSON.stringify(registration), { expires: 3 });
+
+    this.authService.setUser(registration);
 
   }
 
