@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DxButtonModule, DxDropDownButtonModule, DxTabsModule, DxToolbarModule } from 'devextreme-angular';
+import { DxAccordionModule, DxButtonModule, DxDropDownButtonModule, DxTabsModule, DxToolbarModule } from 'devextreme-angular';
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
 import { EventSelectorComponent } from './event-selector/event-selector.component';
@@ -13,6 +13,7 @@ import { EventSelectorComponent } from './event-selector/event-selector.componen
     DxTabsModule,
     DxToolbarModule,
     DxDropDownButtonModule,
+    DxAccordionModule
   ],
   declarations: [
     MainComponent,

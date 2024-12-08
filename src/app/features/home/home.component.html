@@ -52,18 +52,21 @@
   <!--TODO: Add click to see full announcement-->
   <div class="announcements" *ngIf="event">
     <div class="announcements__header">Announcements</div>
-    <div class="announcements__wrapper">
+    <div class="announcements__wrapper" *ngIf="announcements?.length > 0">
       <div
         *ngFor="let announcement of announcements"
         class="announcements__item"
       >
-        <div class="announcements__item-title">{{ announcement.header }}</div>
-        <div class="announcements__item-text">{{ announcement.text }}</div>
+        <div class="announcements__item-title">{{ announcement.title }}</div>
+        <div class="announcements__item-text">{{ announcement.announcement }}</div>
         <div class="announcements__item-footer">
-          <div class="announcements__item-time">{{ announcement.time | date: 'EEE h:mm a' }}</div>
-          <i class="fas fa-eye"></i>
+          <div class="announcements__item-time">{{ announcement.date.toString() | date: 'EEE h:mm a' }}</div>
+          <i class="fas fa-eye" (click)="viewAnnouncement(announcement)"></i>
         </div>
       </div>
+    </div>
+    <div class="announcements__noData"*ngIf="announcements?.length === 0">
+      Check Back for Updates!
     </div>
   </div>
 
@@ -103,5 +106,19 @@
       </div>
     </div>
   </div>
-
 </div>
+
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [visible]="isVisible$ | async"
+  [width]="'90%'"
+  [height]="'70%'"
+  [showCloseButton]="true"
+  (onHiding)="onCancel()">
+  <div class="announcement-popup">
+    <div class="announcement-popup__title">{{ selectedAnnouncement?.title }}</div>
+    <div class="announcement-popup__date">{{ selectedAnnouncement?.date.toString() | date: 'EEEE, MM dd yyy, hh:mm a' }}</div>
+    <div class="announcement-popup__details">{{ selectedAnnouncement?.announcement }}</div>
+  </div>
+</dx-popup>

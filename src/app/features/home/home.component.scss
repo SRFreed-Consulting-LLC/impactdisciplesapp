@@ -69,6 +69,14 @@
     padding-left: 5px;
   }
 
+  &__noData {
+    color: #767676;
+    margin-bottom: 20px;
+    font-size: 12px;
+    padding: 10px;
+    background-color: #cef4fd;
+  }
+
   &__wrapper {
     display: flex;
     overflow-x: auto;
@@ -124,6 +132,23 @@
       color: $secondary;
       margin-right: 10px;
     }
+  }
+}
+
+.announcement-popup {
+  text-align: center;
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  &__date {
+    color: $secondary;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  &__details {
+    font-size: 14px;
   }
 }
 
@@ -191,7 +216,6 @@
     font-size: 12px;
   }
 }
-
 
 .today {
   padding: 10px;

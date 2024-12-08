@@ -16,6 +16,7 @@ import { DiningComponent } from './dining/dining.component';
 import { FaqComponent } from './faq/faq.component';
 import { PrivatePolicyComponent } from './private-policy/private-policy.component';
 import { MySessionsComponent } from './schedule/my-sessions/my-sessions.component';
+import { CourseModalComponent } from './schedule/course-modal/course-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MySessionsComponent } from './schedule/my-sessions/my-sessions.componen
     OnArrivalComponent,
     DiningComponent,
     FaqComponent,
-    PrivatePolicyComponent
+    PrivatePolicyComponent,
+    CourseModalComponent
   ],
   imports: [
     CommonModule,

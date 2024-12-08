@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
@@ -6,7 +6,12 @@ import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/train
 import Query from 'devextreme/data/query';
 import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
 import { DataService } from 'src/app/admin/data.service';
-import { BehaviorSubject } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { ShowCourseModal } from '../course-modal/course-modal.actions';
+import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
+import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
+import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
+import { confirm } from 'devextreme/ui/dialog';
 
 export class TrainingDay{
   date: Date;
@@ -29,54 +34,59 @@ export class TrainingSession{
 })
 export class SessionsScheduleComponent implements OnInit {
   @Input('event') event: EventModel;
+  @Input() fullSchedule: { monthYear: string; days: { date: Date; timeGroups: { date: Date; items: { isAssignedToUser: boolean; item: AgendaItem }[]; }[]; }[]; }[] = [];
+  @Input() activeDay: any;
+  @Input() currentUser: CustomerModel;
+  @Output() courseUpdated: EventEmitter<any> = new EventEmitter<any>();
   trainingDays: TrainingDay[];
 
   courses: CourseModel[] = [];
   coursesList: CourseModel[] = [];
   coachesList: CoachModel[] = [];
   roomsList: TrainingRoomModel[] = []
-
   selectedAgendaItem: AgendaItem;
-  activeDay: any;
-
-  groupedAgendaItems: { monthYear: string; days: { date: Date; items: AgendaItem[] }[] }[] = [];
-
-  public isVisible$ = new BehaviorSubject<boolean>(false);
 
   getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
   getCourseById = (id: string) => Query(this.courses).filter(['id', '=', id]).toArray()[0];
   getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
 
-  constructor(private dataService: DataService){}
+  constructor(private dataService: DataService, private store: Store, private eventRegistrationService: EventRegistrationService, private authService: AuthService, private cd: ChangeDetectorRef){}
 
-  async ngOnInit(): Promise<void> {
-    if(!this.event.agendaItems){
-      this.event.agendaItems = [];
-    } else {
-      // this.trainingDays = this.assemble()
-      console.log(this.event)
-      this.groupAgendaItemsByMonthAndDate(this.event.agendaItems)
-    }
+  async ngOnInit() {
+    this.courses = await this.dataService.getCourses();
 
-    this.courses = this.dataService.getCourses();
+    this.coachesList = await this.dataService.getCoaches();
 
-    this.coachesList = this.dataService.getCoaches();
+    this.roomsList = await this.dataService.getRooms();
 
-    this.roomsList = this.dataService.getRooms();
-    this.preselectActiveDay();
   }
 
-  addCourse(course: AgendaItem) {
-    //TODO: assign course to user
+  isUserAssignedToItem(agendaItem: { isAssignedToUser: boolean; item: AgendaItem }): boolean {
+    return agendaItem.isAssignedToUser;
   }
-
-  preselectActiveDay() {
-    const today = new Date();
-    const futureDates = this.groupedAgendaItems
-      .flatMap((monthGroup: any) => monthGroup.days)
-      .filter((dayGroup: any) => new Date(dayGroup.date) >= today);
-
-    this.activeDay = futureDates.length > 0 ? futureDates[0] : this.groupedAgendaItems[0]?.days[0];
+  
+  isAnyItemAssignedInGroup(timeGroup: { date: Date; items: { isAssignedToUser: boolean; item: AgendaItem }[] }): boolean {
+    return timeGroup.items.some(item => item.isAssignedToUser);
+  }
+  
+  addCourse(agendaItem: AgendaItem, timeGroup: any) {
+    this.eventRegistrationService
+      .registerForTrainingSession(this.currentUser.email, agendaItem.id, this.event.id)
+      .then(() => {
+        this.courseUpdated.emit(timeGroup);
+      });
+  }
+  
+  removeCourse(agendaItem: AgendaItem, timeGroup: any) {
+    confirm('<i>Are you sure you want to remove this course from your schedule?</i>', 'Confirm').then((dialogResult) => {
+      if (dialogResult) {
+        this.eventRegistrationService
+          .unregisterForTrainingSession(this.currentUser.email, agendaItem.id, this.event.id)
+          .then(() => {
+            this.courseUpdated.emit(timeGroup);
+          });
+      }
+    });
   }
 
   setActiveDay(dayGroup: any) {
@@ -91,41 +101,11 @@ export class SessionsScheduleComponent implements OnInit {
     }
   }
 
-  getCourseDescription(id: string) {
-    let course: CourseModel = this.getCourseById(id);
-
-    if(course){
-      return course.longDescription ? course.longDescription : course.shortDescription
-    } else {
-      return '';
-    }
-  }
-
   getCoachName(id: string){
     let coach: CoachModel = this.getCoachById(id);
 
     if(coach){
       return coach.fullname
-    } else {
-      return '';
-    }
-  }
-
-  getCoachImg(id: string){
-    let coach: CoachModel = this.getCoachById(id);
-
-    if(coach){
-      return coach.photoUrl.url
-    } else {
-      return '';
-    }
-  }
-
-  getCoachTitle(id: string){
-    let coach: CoachModel = this.getCoachById(id);
-
-    if(coach){
-      return coach.title
     } else {
       return '';
     }
@@ -151,89 +131,9 @@ export class SessionsScheduleComponent implements OnInit {
     return coachList.join(", ");
   }
 
-  viewCourse(item:AgendaItem){
-    this.selectedAgendaItem = item;
-    console.log(item)
-    this.isVisible$.next(true);
+  viewCourse(item: any) {
+    let course: CourseModel = this.getCourseById(item.item.course);
+    this.store.dispatch(new ShowCourseModal(item, course, this.currentUser, this.event));
   }
 
-  onCancel(){
-    this.isVisible$.next(false);
-  }
-
-  private groupAgendaItemsByMonthAndDate(agendaItems: AgendaItem[]) {
-    const sessions = agendaItems
-    sessions.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-    const groupedByMonthYear = sessions.reduce((acc, item) => {
-      const monthYearKey = new Date(item.startDate).toLocaleString('default', { month: 'long', year: 'numeric' });
-      const dateKey = new Date(item.startDate).toDateString();
-
-      if (!acc[monthYearKey]) {
-        acc[monthYearKey] = {};
-      }
-
-      if (!acc[monthYearKey][dateKey]) {
-        acc[monthYearKey][dateKey] = [];
-      }
-
-      acc[monthYearKey][dateKey].push(item);
-      return acc;
-    }, {} as { [monthYear: string]: { [date: string]: AgendaItem[] } });
-
-    this.groupedAgendaItems = Object.keys(groupedByMonthYear).map(monthYear => ({
-      monthYear: monthYear,
-      days: Object.keys(groupedByMonthYear[monthYear])
-        .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-        .map(date => ({
-          date: new Date(date),
-          items: groupedByMonthYear[monthYear][date],
-        })),
-    }));
-  }
-
-  assemble(){
-    let sessions: TrainingDay[] = [];
-
-    this.event.agendaItems.forEach(item => {
-      let trainingDay: TrainingDay = sessions.find(s => new Date(s.date).toDateString() == new Date(item.startDate).toDateString());
-
-      if(!trainingDay){
-        trainingDay = new TrainingDay();
-        trainingDay.date = item.startDate
-        sessions.push(trainingDay);
-      }
-
-      let trainingSession: TrainingSession = trainingDay.sessions.find(s => new Date(s.date).toISOString() == new Date(item.startDate).toISOString())
-
-      if(trainingSession){
-        trainingSession.courses.push(item)
-      } else {
-        trainingSession = new TrainingSession();
-
-        trainingSession.date = item.startDate;
-        trainingSession.startTime = item.startDate;
-        trainingSession.endTime = item.endDate;
-
-        trainingSession.courses.push(item)
-
-        trainingDay.sessions.push(trainingSession)
-      }
-    })
-
-    sessions.forEach(day => {
-      day.sessions.sort((a,b) => new Date(a.date).toISOString().localeCompare(new Date(b.date).toISOString()));
-
-      day.sessions.forEach(ts => {
-        if(ts.courses.length == 1){
-          ts.title = ts.courses[0].text
-          ts.description = ts.courses[0].description
-        } else {
-          ts.title = "BreakOut Session"
-        }
-      })
-    })
-    console.log(sessions)
-    return sessions;
-  }
 }

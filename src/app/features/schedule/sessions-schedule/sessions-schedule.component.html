@@ -1,15 +1,15 @@
-<div class="sessions">
-  <div class="sessions__days" *ngIf="event?.agendaItems">
-    <div class="sessions__tabs">
-      <ng-container *ngFor="let monthGroup of groupedAgendaItems">
+<div class="schedule">
+  <div class="schedule__days" *ngIf="event?.agendaItems">
+    <div class="schedule__tabs">
+      <ng-container *ngFor="let monthGroup of fullSchedule">
         <ng-container *ngFor="let dayGroup of monthGroup.days">
           <button
-            class="sessions__tabs-tab"
+            class="schedule__tabs-tab"
             [ngClass]="{ 'active': activeDay?.date === dayGroup.date }"
             (click)="setActiveDay(dayGroup)"
           >
             <div class="weekday">{{ dayGroup.date | date: 'EEE' }}</div>
-            <div class="sessions__tabs-tab-date">
+            <div class="schedule__tabs-tab-date">
               <div class="month">{{ dayGroup.date | date: 'MMM' }}</div>
               <div class="number">{{ dayGroup.date | date: 'd' }}</div>
             </div>
@@ -20,36 +20,46 @@
     </div>
 
     <!-- Display agenda items for the selected day -->
-    <div class="sessions__day-agenda" *ngIf="activeDay">
-      <div
-        *ngFor="let item of activeDay.items"
-        class="agenda-item"
-        [ngClass]="{'course': item.isCourse, 'session': !item.isCourse}"
-      >
-        <div *ngIf="item.isCourse" class="course-button">
-          <i class="far fa-square-plus" (click)="addCourse(item)"></i>
-        </div>
-        <div class="agenda-item__date">
-          <div>{{ item.startDate | date: 'h:mm a' }}</div>
-          <div>{{ item.endDate | date: 'h:mm a' }}</div>
-        </div>
-  
-        <div class="agenda-item__details"  [ngClass]="{'main-item': !item.isCourse && item.coaches?.length > 0}">
-          <div *ngIf="item.isCourse" class="title">{{ getCourseTitle(getCourseById(item.course)) }}</div>
-          <div *ngIf="!item.isCourse" class="title">{{ item.text }}</div>
-          <div class="room">Room: {{ getRoomName(item.room) }}</div>
-          
-          <div class="coach" *ngIf="item.coaches && item.coaches.length == 1">
-            <b>Coach:</b> {{ getCoachName(item.coaches[0]) }}
+    <div class="schedule__day-agenda" *ngIf="activeDay">
+      <div *ngFor="let timeGroup of activeDay.timeGroups">
+        <div 
+          *ngFor="let agendaItem of timeGroup.items" 
+          class="agenda-item" 
+          [ngClass]="{'course': agendaItem.item.isCourse, 'session': !agendaItem.item.isCourse, 'assignedCourse':  agendaItem.isAssignedToUser}"
+        >
+          <div *ngIf="agendaItem.item.isCourse" class="course-button">
+            <ng-container *ngIf="isUserAssignedToItem(agendaItem)">
+              <i class="fas fa-times" (click)="removeCourse(agendaItem.item, timeGroup)"></i> 
+            </ng-container>
+            <ng-container *ngIf="!isUserAssignedToItem(agendaItem) && isAnyItemAssignedInGroup(timeGroup)">
+              <i></i>
+            </ng-container>
+            <ng-container *ngIf="!isAnyItemAssignedInGroup(timeGroup)">
+              <i class="far fa-square-plus" (click)="addCourse(agendaItem.item, timeGroup)"></i> 
+            </ng-container>
           </div>
-          <div class="coach" *ngIf="item.coaches && item.coaches.length > 1">
-            <b>Coaches:</b> {{ getCoachList(item.coaches) }}
+          <div class="agenda-item__date">
+            <div>{{ agendaItem.item.startDate | date: 'h:mm a' }}</div>
+            <div>{{ agendaItem.item.endDate | date: 'h:mm a' }}</div>
           </div>
-          <div *ngIf="item.isCourse" class="bottom-row">
-            <div>
-              <div class="capacity" *ngIf="item.maxParticipants > 0">Capacity: {{ item.maxParticipants }}</div>
+    
+          <div class="agenda-item__details"  [ngClass]="{'main-item': !agendaItem.item.isCourse && agendaItem.item.coaches?.length > 0}">
+            <div *ngIf="agendaItem.item.isCourse" class="title">{{ getCourseTitle(getCourseById(agendaItem.item.course)) }}</div>
+            <div *ngIf="!agendaItem.item.isCourse" class="title">{{ agendaItem.item.text }}</div>
+            <div class="room">Room: {{ getRoomName(agendaItem.item.room) }}</div>
+            
+            <div class="coach" *ngIf="agendaItem.item.coaches && agendaItem.item.coaches.length == 1">
+              <b>Coach:</b> {{ getCoachName(agendaItem.item.coaches[0]) }}
             </div>
-            <i class="fas fa-eye" (click)="viewCourse(item)"></i>
+            <div class="coach" *ngIf="agendaItem.item.coaches && agendaItem.item.coaches.length > 1">
+              <b>Coaches:</b> {{ getCoachList(agendaItem.item.coaches) }}
+            </div>
+            <div *ngIf="agendaItem.item.isCourse" class="bottom-row">
+              <div>
+                <div class="capacity" *ngIf="agendaItem.item.maxParticipants > 0">Capacity: {{ agendaItem.item.maxParticipants }}</div>
+              </div>
+              <i class="fas fa-eye" (click)="viewCourse(agendaItem)"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -57,64 +67,3 @@
   </div>
 </div>
 
-
-<dx-popup
-  [showTitle]="true"
-  [dragEnabled]="false"
-  [visible]="isVisible$ | async"
-  [width]="'100%'"
-  [height]="'100%'"
-  cssClass="course-popup"
-  [showCloseButton]="true"
-  (onHiding)="onCancel()">
-
-  <div class="course-popup-content">
-    <div class="course-popup-content__title">{{ getCourseTitle(getCourseById(selectedAgendaItem?.course)) }}</div>
-    <div class="course-popup-content__details">
-      <div class="course-popup-content__details-item">
-        <i class="fa-solid fa-calendar-day"></i>
-        <span>{{ selectedAgendaItem?.startDate | date: 'EEEE, MMMM d, y' }}</span>
-      </div>
-      <div class="course-popup-content__details-item">
-        <i class="fa-regular fa-clock"></i>
-        <span>{{ selectedAgendaItem?.startDate | date: 'h:mm a' }} - {{ selectedAgendaItem?.endDate | date: 'h:mm a' }}</span>
-      </div>
-      <div class="course-popup-content__details-item">
-        <i class="fa-solid fa-location-dot"></i>
-        <span>{{ getRoomName(selectedAgendaItem?.room) }}</span>
-      </div>
-      <div class="course-popup-content__details-item">
-        <i class="fa-solid fa-users"></i>
-        <span>Capacity: {{ selectedAgendaItem?.maxParticipants }}</span>
-      </div>
-    </div>
-    <dx-button class="course-popup-content__button" [text]="'Sign up'"></dx-button>
-    <div class="coaches" *ngIf="event">
-      <div class="coaches__header">Speakers</div>
-      <div class="coaches__wrapper">
-        <div
-          *ngFor="let coach of this.selectedAgendaItem?.coaches"
-          class="coach"
-        >
-          <div class="coach__img">
-            <img class="transform" [src]="getCoachImg(coach)" [alt]="this.getCoachName(coach)" width="40">
-          </div>
-          <div class="coach__details">
-            <div class="name">{{ getCoachName(coach) }}</div>
-            <div class="title">{{ getCoachTitle(coach) }}</div>
-    
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="course-popup-content__description">
-      {{ getCourseDescription(selectedAgendaItem?.course) }}
-    </div>
-    <!-- <img class="transform" [src]="getCoachImg(this.selectedAgendaItem?.coaches[0])" [alt]="this.getCoachName(this.selectedAgendaItem?.coaches[0])" width="100">
-    <div class="course-popup__coach">{{ this.getCoachName(this.selectedAgendaItem?.coaches[0]) }}</div>
-    <div class="course-popup__title">{{ selecectedCourse?.title }}</div>
-    <div *ngIf="selecectedCourse?.shortDescription" class="course-popup__description">{{ selecectedCourse?.shortDescription }}</div>
-    <div *ngIf="selecectedCourse?.longDescription" class="course-popup__description">{{ selecectedCourse?.longDescription }}</div> -->
-  </div>
-
-</dx-popup>

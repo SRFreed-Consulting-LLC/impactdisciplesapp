@@ -12,11 +12,13 @@
 
 <div class="frame" *ngIf="event">
   <ng-template [ngIf]="selectedTab == 'Schedule'">
-    <app-session-schedule [event]="event"></app-session-schedule>
+    <app-session-schedule [event]="event" [fullSchedule]="fullSchedule" [activeDay]="activeDay" (courseUpdated)="handleCourseUpdate($event)" [currentUser]="currentUser"></app-session-schedule>
   </ng-template>
 
   <ng-template [ngIf]="selectedTab == 'My Sessions'">
-    <app-my-sessions [event]="event"></app-my-sessions>
+    <app-my-sessions [myCourses]="myCourses" [allCourses]="allCourses" [currentUser]="currentUser" [event]="event"></app-my-sessions>
   </ng-template>
 
 </div>
+
+<app-course-modal (courseUpdated)="handleCourseUpdate($event)" [allCourses]="allCourses"></app-course-modal>
