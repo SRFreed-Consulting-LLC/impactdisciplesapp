@@ -19,7 +19,9 @@ export class DiningComponent {
 
   async ngOnInit() {
     this.event = await this.dataService.getEvent();
-    this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.diningOptions);
+    if(this.event?.diningOptions) {
+      this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.diningOptions);
+    }
     if (this.event?.agendaItems) {
       // Filter agenda items with isFoodBreak = true
       const foodBreakItems = this.event.agendaItems.filter(item => item.isFoodBreak);

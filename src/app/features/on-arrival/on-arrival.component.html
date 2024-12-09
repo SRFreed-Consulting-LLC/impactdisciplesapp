@@ -29,5 +29,5 @@
       <i class="fas fa-chevron-right"></i>
     </a>
   </div>
-  <div class="arrival__text" [innerHTML]="sanitizedContent"></div>
+  <div *ngIf="sanitizedContent" class="arrival__text" [innerHTML]="sanitizedContent"></div>
 </div>

@@ -14,5 +14,5 @@
     </div>
   </div>
   <hr class="custom-hr">
-  <div class="dining__text" [innerHTML]="sanitizedContent"></div>
+  <div *ngIf="sanitizedContent" class="dining__text" [innerHTML]="sanitizedContent"></div>
 </div>

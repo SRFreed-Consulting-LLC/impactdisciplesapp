@@ -25,6 +25,8 @@ export class OnArrivalComponent implements OnInit {
       this.locationId = undefined; 
     }
     console.log(this.event)
-    this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.checkinInstructions);
+    if(this.event?.checkinInstructions) {
+      this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.checkinInstructions);
+    }
   }
 }
