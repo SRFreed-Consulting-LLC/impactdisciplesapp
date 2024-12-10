@@ -26,6 +26,11 @@ const routes: Routes = [
     canActivate: [ AppAuthGuardService ],
     children: [
       {
+        path: '',
+        component: CaptureUsernameFormComponent,
+        canActivate: [ AuthGuardService ]
+      },
+      {
         path: 'announcements',
         component: AnnouncementsComponent
       },
@@ -66,7 +71,8 @@ const routes: Routes = [
   {
     path: 'event-selector',
     component: EventSelectorComponent
-  }, {
+  }, 
+  {
     path: 'capture-username-form',
     component: CaptureUsernameFormComponent,
     canActivate: [ AuthGuardService ]
