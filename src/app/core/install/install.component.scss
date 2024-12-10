@@ -1,0 +1,44 @@
+@import '../../../assets/styles/variables.scss';
+
+.install {
+  height: 93vh;
+  width: 100vw;
+  overflow-y: scroll;
+  padding: 10px;
+  &__intro {
+    margin: 20px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  &__section {
+    margin-top: 10px;
+    &-header {
+      font-size: 25px;
+      font-weight: 900;
+    }
+    hr {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    &-instructions {
+      .step {
+        margin-bottom: 20px;
+        &__image {
+          margin-bottom: 10px;
+        }
+        &__title {
+          font-weight: 700;
+          font-size: 15px;
+          margin-bottom: 5px;
+        }
+        &__description {
+          font-size: 12px;
+          color: #4a4a4a;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}

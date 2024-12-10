@@ -18,6 +18,7 @@ import { OnArrivalComponent } from './features/on-arrival/on-arrival.component';
 import { DiningComponent } from './features/dining/dining.component';
 import { FaqComponent } from './features/faq/faq.component';
 import { PrivatePolicyComponent } from './features/private-policy/private-policy.component';
+import { InstallComponent } from './core/install/install.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
         component: PrivatePolicyComponent
       },
     ]
+  },
+  {
+    path: 'install',
+    component: InstallComponent
   },
   {
     path: 'event-selector',
