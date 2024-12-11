@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const coachObservables = coachIds.map(id => this.coachService.getById(id));
 
       forkJoin(coachObservables).subscribe((coaches) => {
-        this.coaches = coaches;
+        this.coaches = coaches.sort((a, b) => a.sortOrder - b.sortOrder)
       });
     }
     this.actions$.pipe(ofActionDispatched(ResetSchedule), takeUntil(this.ngUnsubscribe)).subscribe(async () => {

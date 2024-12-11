@@ -38,7 +38,7 @@ export class CoachesComponent implements OnInit{
       const coachObservables = coachIds.map(id => this.coachService.getById(id));
 
       forkJoin(coachObservables).subscribe((coaches) => {
-        this.coaches = coaches;
+        this.coaches = coaches.sort((a, b) => a.sortOrder - b.sortOrder)
       });
     }
   }

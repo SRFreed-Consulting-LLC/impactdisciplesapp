@@ -48,7 +48,7 @@
             <div>{{ timeGroup.items[0].item.endDate | date: 'h:mm a' }}</div>
           </div>
     
-          <div class="agenda-item__details"  [ngClass]="{'main-item': !timeGroup.items[0].item.isCourse && timeGroup.items[0].item.coaches?.length > 0}">
+          <div class="agenda-item__details"  [ngClass]="{'main-item': !timeGroup.items[0].item.isCourse && !timeGroup.items[0].item.isFoodBreak }">
             <div *ngIf="!timeGroup.items[0].item.isCourse" class="title">{{ timeGroup.items[0].item.text }}</div>
             <div class="room">Room: {{ getRoomName(timeGroup.items[0].item.room) }}</div>
             
