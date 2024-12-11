@@ -4,6 +4,9 @@
   height: 93vh;
   width: 100vw;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .next-session {
@@ -54,7 +57,7 @@
     justify-content: center;
     text-align: center;
     height: 55px;
-    width: 55px;
+    width: 75px;
     i {
       height: 20px;
     }
@@ -226,6 +229,7 @@
     background-color: $primary;
     padding: 10px;
     color: #ffffff;
+    margin-bottom: 20px;
     .custom-hr {
       border-top: 3px solid #ffffff;
       width: 50%;

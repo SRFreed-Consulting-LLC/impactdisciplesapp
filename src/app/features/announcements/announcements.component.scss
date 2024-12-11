@@ -3,4 +3,7 @@
   height: 85vh;
   width: 95vw;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -1,5 +1,18 @@
+<div class="event-selector">
+  <div class="event-selector__title">Please select which event you wish to load now.</div>
+  <hr>
+  <div class="event-selector__wrapper">
+    <div *ngFor="let event of registeredEventsList" class="event-selector__event" (click)="selectEvent(event)">
+      <div class="image">
+        <img [src]="event?.imageUrl?.url" width="230px">
+      </div>
+      <div class="title">{{ event?.eventName }}</div>
+    </div>
+  </div>
+</div>
 
-<div class="frame" *ngIf="registeredEventsList">
+
+<!-- <div class="frame" *ngIf="registeredEventsList">
   <div class= container>
     <div class="row">
       <div class="col-3"></div>
@@ -30,4 +43,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

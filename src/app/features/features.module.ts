@@ -17,6 +17,7 @@ import { PrivatePolicyComponent } from './private-policy/private-policy.componen
 import { CourseModalComponent } from './schedule/course-modal/course-modal.component';
 import { BreakoutSessionsComponent } from './schedule/breakout-sessions/breakout-sessions.component';
 import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.componen
     DiningComponent,
     FaqComponent,
     PrivatePolicyComponent,
-    CourseModalComponent
+    CourseModalComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
