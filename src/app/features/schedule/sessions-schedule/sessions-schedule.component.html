@@ -15,44 +15,44 @@
             </div>
           </button>
         </ng-container>
-        
+
       </ng-container>
     </div>
 
     <!-- Display agenda items for the selected day -->
     <div class="schedule__day-agenda" *ngIf="activeDay">
       <div *ngFor="let timeGroup of activeDay.timeGroups">
-        <div 
-          *ngFor="let agendaItem of timeGroup.items" 
-          class="agenda-item" 
+        <div
+          *ngFor="let agendaItem of timeGroup.items"
+          class="agenda-item"
           [ngClass]="{'course': agendaItem.item.isCourse, 'session': !agendaItem.item.isCourse, 'assignedCourse':  agendaItem.isAssignedToUser}"
         >
           <div *ngIf="agendaItem.item.isCourse" class="course-button">
             <ng-container *ngIf="isUserAssignedToItem(agendaItem)">
-              <i class="fas fa-times" (click)="removeCourse(agendaItem.item, timeGroup)"></i> 
+              <i class="fas fa-times" (click)="removeCourse(agendaItem.item, timeGroup)"></i>
             </ng-container>
             <ng-container *ngIf="!isUserAssignedToItem(agendaItem) && isAnyItemAssignedInGroup(timeGroup)">
               <i></i>
             </ng-container>
             <ng-container *ngIf="!isAnyItemAssignedInGroup(timeGroup)">
-              <i class="far fa-square-plus" (click)="addCourse(agendaItem.item, timeGroup)"></i> 
+              <i class="far fa-square-plus" (click)="addCourse(agendaItem.item, timeGroup)"></i>
             </ng-container>
           </div>
           <div class="agenda-item__date">
             <div>{{ agendaItem.item.startDate | date: 'h:mm a' }}</div>
             <div>{{ agendaItem.item.endDate | date: 'h:mm a' }}</div>
           </div>
-    
+
           <div class="agenda-item__details"  [ngClass]="{'main-item': !agendaItem.item.isCourse && agendaItem.item.coaches?.length > 0}">
             <div *ngIf="agendaItem.item.isCourse" class="title">{{ getCourseTitle(getCourseById(agendaItem.item.course)) }}</div>
             <div *ngIf="!agendaItem.item.isCourse" class="title">{{ agendaItem.item.text }}</div>
             <div class="room">Room: {{ getRoomName(agendaItem.item.room) }}</div>
-            
+
             <div class="coach" *ngIf="agendaItem.item.coaches && agendaItem.item.coaches.length == 1">
-              <b>Coach:</b> {{ getCoachName(agendaItem.item.coaches[0]) }}
+              <b>Speaker:</b> {{ getCoachName(agendaItem.item.coaches[0]) }}
             </div>
             <div class="coach" *ngIf="agendaItem.item.coaches && agendaItem.item.coaches.length > 1">
-              <b>Coaches:</b> {{ getCoachList(agendaItem.item.coaches) }}
+              <b>Speaker:</b> {{ getCoachList(agendaItem.item.coaches) }}
             </div>
             <div *ngIf="agendaItem.item.isCourse" class="bottom-row">
               <div>
