@@ -104,7 +104,6 @@
     color: #fff;
   }
   &__item {
-    margin: 0 10px;
     border: 1px solid $border;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -144,4 +143,11 @@
 }
 .assigned-user {
   background-color: #5bff818f;
+}
+
+::ng-deep .dx-accordion-item {
+  border: none;
+}
+::ng-deep .dx-accordion-item:last-child {
+  border-bottom: none;
 }

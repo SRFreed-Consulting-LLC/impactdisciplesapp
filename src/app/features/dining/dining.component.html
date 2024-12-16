@@ -1,4 +1,5 @@
 <div class="dining">
+  <a class="dining__back-icon" href="/home"><i class="fas fa-chevron-left"></i></a>
   <div class="dining__header">
     <div class="dining__logo-wrapper">
       <i class="fa-solid fa-utensils"></i>
@@ -14,5 +15,5 @@
     </div>
   </div>
   <hr class="custom-hr">
-  <div class="dining__text" [innerHTML]="sanitizedContent"></div>
+  <div *ngIf="sanitizedContent" class="dining__text" [innerHTML]="sanitizedContent"></div>
 </div>

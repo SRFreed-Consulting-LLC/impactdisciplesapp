@@ -10,11 +10,11 @@ import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model'
 import { ScheduleModel } from 'src/app/shared/models/schedule.model';
 
 @Component({
-  selector: 'app-my-sessions',
-  templateUrl: './my-sessions.component.html',
-  styleUrls: ['./my-sessions.component.scss']
+  selector: 'app-breakout-sessions',
+  templateUrl: './breakout-sessions.component.html',
+  styleUrls: ['./breakout-sessions.component.scss']
 })
-export class MySessionsComponent implements OnInit {
+export class BreakoutSessionsComponent implements OnInit {
   @Input() allCourses: ScheduleModel[];
   @Input() myCourses: ScheduleModel[];
   @Input() currentUser: CustomerModel;

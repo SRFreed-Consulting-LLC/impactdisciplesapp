@@ -3,15 +3,16 @@
 
   <!--TODO: Add logic for showing the next event on the user's schedule-->
   <!--TODO: Add click to see session details-->
-  <div class="next-session">
+  <div class="next-session" *ngIf="upcomingItem">
     <div class="next-session__wrapper">
       <i class="fas fa-business-time"></i>
       <div class="next-session__info">
         <div class="next-session__info-pretitle">UPCOMING</div>
-        <div class="next-session__info-title">Disciple-Making & Recovery</div>
+        <div *ngIf="upcomingItem.item.isCourse" class="next-session__info-title">{{ getCourseTitle(getCourseById(upcomingItem.item.course)) }}</div>
+        <div *ngIf="!upcomingItem.item.isCourse" class="next-session__info-title">{{ upcomingItem.item.text }}</div>
         <div class="next-session__info-details">
-          <div class="time"><strong>Time:</strong>9:00am - 10:00am</div>
-          <div class="time"><strong>Place:</strong>Studio 2</div>
+          <div class="time"><strong>Time:</strong>{{ upcomingItem.item.startDate | date: 'h:mm a' }} - {{ upcomingItem.item.endDate | date: 'h:mm a' }}</div>
+          <div class="place"><strong>Place:</strong>{{ getRoomName(upcomingItem.item.room) }}</div>
         </div>
       </div>
     </div>
@@ -48,8 +49,6 @@
     </div>
   </div>
 
-  <!--TODO: Return announcements from event-->
-  <!--TODO: Add click to see full announcement-->
   <div class="announcements" *ngIf="event">
     <div class="announcements__header">Announcements</div>
     <div class="announcements__wrapper" *ngIf="announcements?.length > 0">
@@ -73,8 +72,8 @@
   <!--TODO: Get year from event date-->
   <div class="welcome">
     <div class="welcome__header">
-      <img src="../../../assets/icons/Impact-Logo_Light.png" width="40px" height="40px">
-      <div class="welcome__pretitle">WELCOME TO THE 2024</div>
+      <img src="../../../assets/icons/Impact-Logo_Light.png" width="60px" height="60px">
+      <div class="welcome__pretitle">WELCOME TO THE {{ event?.startDate.toString() | date: 'yyyy' }}</div>
       <div class="welcome__title">{{ event?.eventName }}</div>
     </div>
     <div class="welcome__text">{{ event?.description }}</div>
@@ -97,14 +96,8 @@
       <div class="today__header-title">What to Know</div>
       <div class="today__header-subtitle">Day 2 <i class="fas fa-forward"></i></div>
       <hr class="custom-hr">
-      <div class="today__header-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
     </div>
-    <div class="today__item">
-      <div class="today__item-title">Morning Preperation!</div>
-      <div class="today__item-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </div>
-    </div>
+    <div *ngIf="sanitizedContent" [innerHtml]="sanitizedContent"></div>
   </div>
 </div>
 

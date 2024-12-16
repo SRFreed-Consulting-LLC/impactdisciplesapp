@@ -12,6 +12,7 @@ import { EventRegistrationService } from 'impactdisciplescommon/src/services/dat
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { confirm } from 'devextreme/ui/dialog';
+import { DaysModel, ScheduleModel, TimeGroupsModel } from 'src/app/shared/models/schedule.model';
 
 export class TrainingDay{
   date: Date;
@@ -28,22 +29,23 @@ export class TrainingSession{
 }
 
 @Component({
-  selector: 'app-session-schedule',
-  templateUrl: './sessions-schedule.component.html',
-  styleUrls: ['./sessions-schedule.component.scss']
+  selector: 'app-my-schedule',
+  templateUrl: './my-schedule.component.html',
+  styleUrls: ['./my-schedule.component.scss']
 })
-export class SessionsScheduleComponent implements OnInit {
+export class MyScheduleComponent implements OnInit {
   @Input('event') event: EventModel;
-  @Input() fullSchedule: { monthYear: string; days: { date: Date; timeGroups: { date: Date; items: { isAssignedToUser: boolean; item: AgendaItem }[]; }[]; }[]; }[] = [];
-  @Input() activeDay: any;
+  @Input() fullSchedule: ScheduleModel[];
+  @Input() activeDay: DaysModel;
   @Input() currentUser: CustomerModel;
   @Output() courseUpdated: EventEmitter<any> = new EventEmitter<any>();
+  @Output() navigateToBreakouts: EventEmitter<any> = new EventEmitter<any>();
   trainingDays: TrainingDay[];
 
   courses: CourseModel[] = [];
   coursesList: CourseModel[] = [];
   coachesList: CoachModel[] = [];
-  roomsList: TrainingRoomModel[] = []
+  roomsList: TrainingRoomModel[] = [];
   selectedAgendaItem: AgendaItem;
 
   getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
@@ -91,6 +93,19 @@ export class SessionsScheduleComponent implements OnInit {
 
   setActiveDay(dayGroup: any) {
     this.activeDay = dayGroup;
+  }
+
+  onNavigateToBreakouts(timeGroup: TimeGroupsModel) {
+    const isAnyItemAssignedInGroup = this.isAnyItemAssignedInGroup(timeGroup)
+    if(isAnyItemAssignedInGroup) {
+      const customAgendaItem = timeGroup.items.find(item => item.isAssignedToUser);
+      if (customAgendaItem) {
+        let course: CourseModel = this.getCourseById(customAgendaItem.item.course);
+        this.store.dispatch(new ShowCourseModal(customAgendaItem, course, this.currentUser, this.event));
+      }
+    } else {
+      this.navigateToBreakouts.emit();
+    }
   }
 
   getCourseTitle(course:CourseModel){

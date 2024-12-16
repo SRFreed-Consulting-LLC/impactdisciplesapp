@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import Query from 'devextreme/data/query';
-import { Actions, ofActionDispatched } from '@ngxs/store';
+import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -13,6 +13,7 @@ import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/cus
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { confirm } from 'devextreme/ui/dialog';
 import { ScheduleModel } from 'src/app/shared/models/schedule.model';
+import { ResetSchedule } from '../schedule.actions';
 
 export interface CourseItem {
   course: CourseModel;
@@ -41,7 +42,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
   getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
   getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
 
-  constructor(private actions$: Actions, private dataService: DataService, private eventRegistrationService: EventRegistrationService){}
+  constructor(private store: Store, private actions$: Actions, private dataService: DataService, private eventRegistrationService: EventRegistrationService){}
 
   ngOnInit(): void {
     this.roomsList = this.dataService.getRooms();
@@ -119,7 +120,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
             this.eventRegistrationService
               .registerForTrainingSession(this.currentUser.email, course.id, this.event.id)
               .then(() => {
-                this.courseUpdated.emit();
+                this.store.dispatch(new ResetSchedule());
                 this.isVisible$.next(false);
               });
           });
@@ -130,7 +131,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
       this.eventRegistrationService
         .registerForTrainingSession(this.currentUser.email, course.id, this.event.id)
         .then(() => {
-          this.courseUpdated.emit();
+          this.store.dispatch(new ResetSchedule());
           this.isVisible$.next(false);
         });
     }
@@ -142,7 +143,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
         this.eventRegistrationService
         .unregisterForTrainingSession(this.currentUser.email, course.id, this.event.id)
         .then(() => {
-          this.courseUpdated.emit()
+          this.store.dispatch(new ResetSchedule());
           this.isVisible$.next(false)
         });
       }

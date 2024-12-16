@@ -10,7 +10,7 @@ import { DataService } from 'src/app/admin/data.service';
 @Component({
   selector: 'app-announcements',
   templateUrl: './announcements.component.html',
-  styleUrls: ['./announcements.component.css']
+  styleUrls: ['./announcements.component.scss']
 })
 export class AnnouncementsComponent implements OnInit {
   @Input('event') event: EventModel;

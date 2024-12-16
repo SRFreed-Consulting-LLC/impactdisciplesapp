@@ -4,6 +4,9 @@
   height: 93vh;
   width: 100vw;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &__header {
     background-color: $primary;
     height: 140px;

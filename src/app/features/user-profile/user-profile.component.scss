@@ -4,6 +4,9 @@
   height: 93vh;
   width: 100vw;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &__wrapper {
     display: flex;
     flex-direction: column;
@@ -36,7 +39,6 @@
     width: 100%;
     &-section {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       padding: 5px 0;
       font-size: 12px;

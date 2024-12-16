@@ -8,15 +8,16 @@ import { RouterModule } from '@angular/router';
 import { CoachesComponent } from './coaches/coaches.component';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './home/welcome/welcome.component';
-import { SessionsScheduleComponent } from './schedule/sessions-schedule/sessions-schedule.component';
 import { SharedModule } from '../shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { OnArrivalComponent } from './on-arrival/on-arrival.component';
 import { DiningComponent } from './dining/dining.component';
 import { FaqComponent } from './faq/faq.component';
 import { PrivatePolicyComponent } from './private-policy/private-policy.component';
-import { MySessionsComponent } from './schedule/my-sessions/my-sessions.component';
 import { CourseModalComponent } from './schedule/course-modal/course-modal.component';
+import { BreakoutSessionsComponent } from './schedule/breakout-sessions/breakout-sessions.component';
+import { MyScheduleComponent } from './schedule/my-schedule/my-schedule.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +26,15 @@ import { CourseModalComponent } from './schedule/course-modal/course-modal.compo
     ScheduleComponent,
     CoachesComponent,
     WelcomeComponent,
-    SessionsScheduleComponent,
-    MySessionsComponent,
+    MyScheduleComponent,
+    BreakoutSessionsComponent,
     UserProfileComponent,
     OnArrivalComponent,
     DiningComponent,
     FaqComponent,
     PrivatePolicyComponent,
-    CourseModalComponent
+    CourseModalComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,

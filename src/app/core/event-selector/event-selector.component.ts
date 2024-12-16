@@ -14,7 +14,7 @@ const COOKIE_NAME = "impact-disciples-app"
 @Component({
   selector: 'app-event-selector',
   templateUrl: './event-selector.component.html',
-  styleUrls: ['./event-selector.component.css']
+  styleUrls: ['./event-selector.component.scss']
 })
 export class EventSelectorComponent implements OnInit {
   registeredEventsList: EventModel[];

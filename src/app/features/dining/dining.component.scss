@@ -4,6 +4,15 @@
   height: 93vh;
   width: 100vw;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &__back-icon {
+    position: absolute;
+    font-size: 25px;
+    margin: 5px 0 0 15px;
+    color: #fff;
+  }
   &__header {
     background-color: $primary;
     height: 140px;
@@ -52,5 +61,8 @@
         color: #9e9e9e;
       }
     }
+  }
+  &__text {
+    padding: 20px;
   }
 }
