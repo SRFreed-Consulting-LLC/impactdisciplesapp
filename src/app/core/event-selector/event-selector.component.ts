@@ -8,6 +8,7 @@ import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model'
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
 import { CookieService } from 'ngx-cookie-service';
 import { take } from 'rxjs';
+import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 
 const COOKIE_NAME = "impact-disciples-app"
 
@@ -23,6 +24,7 @@ export class EventSelectorComponent implements OnInit {
 
   constructor(private cookieService: CookieService,
     private eventService: EventService,
+    private eventRegistrationService: EventRegistrationService,
     private router: Router,
     private dataService: DataService,
     private authService: AuthService
@@ -54,6 +56,10 @@ export class EventSelectorComponent implements OnInit {
   setUserCookie(event:EventModel){
     let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == event.id);
     this.cookieService.set(COOKIE_NAME, JSON.stringify(registration), { expires: 3 });
+
+    registration.loggedIn = true;
+
+    this.eventRegistrationService.update(registration.id, registration);
 
     return this.authService.setUser(registration);
   }
