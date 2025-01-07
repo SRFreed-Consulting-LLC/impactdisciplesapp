@@ -1,40 +1,91 @@
-<div class="install">
-  <div class="install__intro">Welcome to the Impact Disciples Event App! Find Instructions below on how to add this app to your home screen for quick access!</div>
-  <div class="install__section">
-    <div class="install__section-header">Safari</div>
-    <hr>
-    <div class="install__section-instructions">
-      <div class="step">
-        <div class="step__image">
-          <img src="../../../assets/images/safari-install/step1.PNG" width="100%">
-        </div>
-        <div class="step__title">1. Click the Share button</div>
-        <div class="step__description">The share button is typically located at the bottom of the screen. Look for the icon pictured above.</div>
-      </div>
-      <div class="step">
-        <div class="step__image">
-          <img src="../../../assets/images/safari-install/step2.PNG" width="100%">
-        </div>
-        <div class="step__title">2. Add to Home Screen</div>
-        <div class="step__description">The list of share options will have an 'Add to Home Screen' button. You may have to scroll to see the option.</div>
-      </div>
-      <div class="step">
-        <div class="step__image">
-          <img src="../../../assets/images/safari-install/step3.PNG" width="100%">
-        </div>
-        <div class="step__title">3. Confirm App Install</div>
-        <div class="step__description">Confirm adding the Impact Disciples App to your Home Screen. You may also adjust the app name in this step.</div>
-      </div>
-      <div class="step">
-        <div class="step__image">
-          <img src="../../../assets/images/safari-install/step4.PNG" width="100%">
-        </div>
-        <div class="step__title">4. Open App</div>
-        <div class="step__description">You should now see the Impact Disciples App within your app screen. It will look like the image pictured above.</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-xs-1"></div>
+    <div class="col-lg-6 col-xs-10">
+      <div class="">
+        <div class="install__intro">Welcome to the Impact Disciples Event App! Find Instructions below on how to add this app to your home screen for quick access!</div>
+        <dx-tabs #apiTabs [dataSource]="tabs" [(selectedIndex)]="selectedIndex" (onItemClick)="selectTab($event)" ></dx-tabs>
+        <ng-template [ngIf]="selectedTab == 'Safari'">
+          <div class="install__section">
+            <div class="install__section-header">Safari</div>
+            <hr>
+            <div class="install__section-instructions">
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/safari-install/step1.PNG" width="100%">
+                </div>
+                <div class="step__title">1. Click the Share button</div>
+                <div class="step__description">The share button is typically located at the bottom of the screen. Look for the icon pictured above.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/safari-install/step2.PNG" width="100%">
+                </div>
+                <div class="step__title">2. Add to Home Screen</div>
+                <div class="step__description">The list of share options will have an 'Add to Home Screen' button. You may have to scroll to see the option.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/safari-install/step3.PNG" width="100%">
+                </div>
+                <div class="step__title">3. Confirm App Install</div>
+                <div class="step__description">Confirm adding the Impact Disciples App to your Home Screen. You may also adjust the app name in this step.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/safari-install/step4.PNG" width="100%">
+                </div>
+                <div class="step__title">4. Open App</div>
+                <div class="step__description">You should now see the Impact Disciples App within your app screen. It may look like the image pictured above.</div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template [ngIf]="selectedTab == 'Chrome'">
+          <div class="install__section">
+            <div class="install__section-header">Chrome</div>
+            <hr>
+            <div class="install__section-instructions">
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/chrome-install/STEP0.jpg" width="100%">
+                </div>
+                <div class="step__title">1. Click the Menu Screen button</div>
+                <div class="step__description">The Menu button is typically in the top right corner of the screen. Look for the icon pictured above.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/chrome-install/STEP1.jpg" width="100%">
+                </div>
+                <div class="step__title">2. Add to Home Screen</div>
+                <div class="step__description">The list of share options will have an 'Add to Home Screen' button. You may have to scroll to see the option.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/chrome-install/STEP2.jpg" width="100%">
+                </div>
+                <div class="step__title">3. Select Install</div>
+                <div class="step__description">If provided the soption to "Install" or "Create A Shortcut", select "Install".</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/chrome-install/STEP3.jpg" width="100%">
+                </div>
+                <div class="step__title">4. Confirm App Install</div>
+                <div class="step__description">Confirm installing the Impact Disciples App to Phone.</div>
+              </div>
+              <div class="step">
+                <div class="step__image">
+                  <img src="../../../assets/images/safari-install/step4.PNG" width="100%">
+                </div>
+                <div class="step__title">5. Open App</div>
+                <div class="step__description">You should now see the Impact Disciples App within your list of apps. It may look like the image pictured above.. You may have to search your app gallery.</div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
-  <div class="install__section">
-    <div class="install__section-header">Chrome</div>
-  </div>
 </div>
+

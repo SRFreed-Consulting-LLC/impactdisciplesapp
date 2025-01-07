@@ -4,6 +4,7 @@ import { DxAccordionModule, DxButtonModule, DxDropDownButtonModule, DxTabsModule
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
 import { EventSelectorComponent } from './event-selector/event-selector.component';
+import { InstallComponent } from './install/install.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { EventSelectorComponent } from './event-selector/event-selector.componen
     DxAccordionModule
   ],
   declarations: [
+    InstallComponent,
     MainComponent,
     EventSelectorComponent
   ]
