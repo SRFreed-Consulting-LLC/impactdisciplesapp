@@ -3,21 +3,19 @@
     <div class="col-lg-3 col-xs-1"></div>
     <div class="col-lg-6 col-xs-10">
       <div class="">
-        <div class="install__intro">Welcome to the Impact Disciples Event App! Find Instructions below on how to add this app to your home screen for quick access!</div>
+        <div class="install__intro"><h5>Welcome to the Impact Disciples Event App!</h5></div>
         <div class="install__intro">
-          To start the Install, open the browser on your device and navigate to this page.
+          Find Instructions below on how to add this app to your home screen for quick access on both IOS and Android.
         </div>
         <div class="install__intro">
-          <a href="https://event.impactdisciples.com" target="_blank">https://event.impactdisciples.com</a>
-        </div>
-        <div class="install__intro">
-          Once the page is open, follow the below instructions for IOS or ANDROID devices.
+          These instructions will guide you through the process of installing the Summit app to your phone. While each device and browser MAY differ slightly,
+          these instructions should proviced general guidance on how to install the app.
         </div>
         <hr>
         <dx-tabs #apiTabs [dataSource]="tabs" [(selectedIndex)]="selectedIndex" (onItemClick)="selectTab($event)" ></dx-tabs>
         <ng-template [ngIf]="selectedTab == 'IOS'">
           <div class="install__section">
-            <div class="install__section-header">IOS</div>
+            <div class="install__section-header">Safari</div>
             <hr>
             <div class="install__section-instructions">
               <div class="step">
@@ -53,7 +51,7 @@
         </ng-template>
         <ng-template [ngIf]="selectedTab == 'ANDROID'">
           <div class="install__section">
-            <div class="install__section-header">ANDROID</div>
+            <div class="install__section-header">Chrome</div>
             <hr>
             <div class="install__section-instructions">
               <div class="step">
