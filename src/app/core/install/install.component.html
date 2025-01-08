@@ -5,9 +5,9 @@
       <div class="">
         <div class="install__intro">Welcome to the Impact Disciples Event App! Find Instructions below on how to add this app to your home screen for quick access!</div>
         <dx-tabs #apiTabs [dataSource]="tabs" [(selectedIndex)]="selectedIndex" (onItemClick)="selectTab($event)" ></dx-tabs>
-        <ng-template [ngIf]="selectedTab == 'Safari'">
+        <ng-template [ngIf]="selectedTab == 'IOS'">
           <div class="install__section">
-            <div class="install__section-header">Safari</div>
+            <div class="install__section-header">IOS</div>
             <hr>
             <div class="install__section-instructions">
               <div class="step">
@@ -41,9 +41,9 @@
             </div>
           </div>
         </ng-template>
-        <ng-template [ngIf]="selectedTab == 'Chrome'">
+        <ng-template [ngIf]="selectedTab == 'ANDROID'">
           <div class="install__section">
-            <div class="install__section-header">Chrome</div>
+            <div class="install__section-header">ANDROID</div>
             <hr>
             <div class="install__section-instructions">
               <div class="step">

@@ -8,11 +8,11 @@ import { Tab } from 'impactdisciplescommon/src/models/utils/tab.model';
 })
 export class InstallComponent {
   selectedIndex: number = 0;
-  selectedTab: string = 'Safari';
+  selectedTab: string = 'IOS';
 
   tabs: Tab[] = [
-    { id: 0, text: 'Safari', template: 'Safari' },
-    { id: 1, text: 'Chrome', template: 'Chrome' }
+    { id: 0, text: 'IOS', template: 'IOS' },
+    { id: 1, text: 'ANDROID', template: 'ANDROID' }
   ];
 
   selectTab(e) {
