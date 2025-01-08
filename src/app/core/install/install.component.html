@@ -4,6 +4,16 @@
     <div class="col-lg-6 col-xs-10">
       <div class="">
         <div class="install__intro">Welcome to the Impact Disciples Event App! Find Instructions below on how to add this app to your home screen for quick access!</div>
+        <div class="install__intro">
+          To start the Install, open the browser on your device and navigate to this page.
+        </div>
+        <div class="install__intro">
+          <a href="https://impactdisciples-app.web.app" target="_blank">https://impactdisciples-app.web.app</a>
+        </div>
+        <div class="install__intro">
+          Once the page is open, follow the below instructions for IOS or ANDROID devices.
+        </div>
+        <hr>
         <dx-tabs #apiTabs [dataSource]="tabs" [(selectedIndex)]="selectedIndex" (onItemClick)="selectTab($event)" ></dx-tabs>
         <ng-template [ngIf]="selectedTab == 'IOS'">
           <div class="install__section">
