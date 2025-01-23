@@ -1,3 +1,4 @@
+import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import Query from 'devextreme/data/query';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
@@ -42,11 +43,12 @@ export class CourseModalComponent implements OnInit, OnDestroy {
   getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
   getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
 
-  constructor(private store: Store, private actions$: Actions, private dataService: DataService, private eventRegistrationService: EventRegistrationService){}
+  constructor(private store: Store, private actions$: Actions, private dataService: DataService, private eventRegistrationService: EventRegistrationService, private scheduleService: ScheduleService){}
 
   ngOnInit(): void {
     this.roomsList = this.dataService.getRooms();
     this.coachesList = this.dataService.getCoaches();
+
     this.actions$.pipe(
       ofActionDispatched(ShowCourseModal),
       takeUntil(this.ngUnsubscribe)
@@ -59,7 +61,11 @@ export class CourseModalComponent implements OnInit, OnDestroy {
     })
   }
 
-  
+  getCapacity(){
+    return this.scheduleService.traininlist.get(this?.customAgendaItem?.item.id)?.length;
+  }
+
+
   getRoomName(id: string){
     let room: TrainingRoomModel = this.getRoomById(id);
 
@@ -90,7 +96,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
   getCoachTitle(id: string){
     let coach: CoachModel = this.getCoachById(id);
 
@@ -103,14 +109,15 @@ export class CourseModalComponent implements OnInit, OnDestroy {
 
   addCourse(course: AgendaItem) {
     const conflictingCourse = this.allCourses
-    .flatMap(group => group.days)
-    .flatMap(day => day.timeGroups)
-    .flatMap(timeGroup => timeGroup.items)
-    .find(item => 
-      item.isAssignedToUser &&
-      new Date(item.item.startDate).getTime() === new Date(course.startDate).getTime() &&
-      item.item.course !== course.course
-    );
+      .flatMap(group => group.days)
+      .flatMap(day => day.timeGroups)
+      .flatMap(timeGroup => timeGroup.items)
+      .find(item =>
+        item.isAssignedToUser &&
+        new Date(item.item.startDate).getTime() === new Date(course.startDate).getTime() &&
+        item.item.course !== course.course
+      );
+
     if (conflictingCourse) {
       confirm('<i>You are already assigned to a course at this time. Would you like to remove that course and add the new one?</i>', 'Confirm').then((dialogResult) => {
         if (dialogResult) {
@@ -136,7 +143,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
         });
     }
   }
-  
+
   removeCourse(course: AgendaItem) {
     confirm('<i>Are you sure you want to remove this course from your schedule?</i>', 'Confirm').then((dialogResult) => {
       if (dialogResult) {

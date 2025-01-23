@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedAnnouncement: AnnouncementModel;
   sanitizedContent: SafeHtml;
   itemWidth = window.innerWidth;
-  
+
   public isVisible$ = new BehaviorSubject<boolean>(false);
 
   private ngUnsubscribe = new Subject<void>();
@@ -45,8 +45,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
 
   constructor(
-    private dataService: DataService, 
-    private coachService: CoachService, 
+    private dataService: DataService,
+    private coachService: CoachService,
     private authService: AuthService,
     private eventAnnouncementService: EventAnnouncementService,
     private eventRegistrationService: EventRegistrationService,
@@ -111,7 +111,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Only update if the next item is different from the current upcoming item
     if (nextItem !== this.upcomingItem) {
       this.upcomingItem = nextItem;
-      console.log('Upcoming item updated:', this.upcomingItem);
     }
   }
 
@@ -128,9 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private updateLocalSchedules() {
     this.mySchedule = this.scheduleService.mySchedule;
     this.findUpcomingItem();
-    console.log(this.mySchedule)
   }
-  
+
   viewAnnouncement(announcement: AnnouncementModel){
     this.selectedAnnouncement = announcement;
 

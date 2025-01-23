@@ -36,9 +36,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private dataService: DataService, 
-    private authService: AuthService, 
-    private eventRegistrationService: EventRegistrationService, 
+    private dataService: DataService,
+    private authService: AuthService,
+    private eventRegistrationService: EventRegistrationService,
     private scheduleService: ScheduleService,
     private actions$: Actions,
     private store: Store
@@ -46,6 +46,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.event = await this.dataService.getEvent();
+    this.scheduleService.monitorBreakoutCapacity(this.event);
     this.authService.getUser().pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
       this.currentUser = user;
     });

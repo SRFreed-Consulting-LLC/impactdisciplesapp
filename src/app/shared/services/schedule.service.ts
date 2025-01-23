@@ -1,6 +1,8 @@
+import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 import { Injectable } from "@angular/core";
 import { ScheduleModel, TimeGroupsModel, UpdatedAgendaItemModel } from "../models/schedule.model";
 import { AgendaItem } from "impactdisciplescommon/src/models/domain/utils/agenda-item.model";
+import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,8 @@ export class ScheduleService {
   public allCourses: ScheduleModel[] = [];
   public mySchedule: ScheduleModel[] = [];
   public sessionIds: string[] = [];
+
+  constructor(private eventRegistrationService: EventRegistrationService){}
 
   public organizeAgendaItems(agendaItems: AgendaItem[]): void {
     const sortedItems = [...agendaItems].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
@@ -122,5 +126,25 @@ export class ScheduleService {
         });
       });
     });
+  }
+
+  public traininlist: Map<string, string[]> = new Map<string, string[]>();
+
+  monitorBreakoutCapacity(event: EventModel){
+    this.eventRegistrationService.streamTrainingSessionList(event.id).subscribe(registeredusers => {
+      let retval: Map<string, string[]> = new Map<string, string[]>();
+
+      registeredusers.forEach(user => {
+        user?.trainingSessions?.forEach(session =>{
+          if(!retval.has(session)){
+            retval.set(session, [])
+          }
+
+          retval.get(session).push(user.id);
+        })
+      })
+
+      this.traininlist = retval;
+    })
   }
 }

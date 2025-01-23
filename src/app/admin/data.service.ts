@@ -53,13 +53,10 @@ constructor(private courseService: CourseService,
 
   getEvent(){
     if(this.event){
-      console.log('found')
       return this.event;
     } else if(localStorage.getItem("SELECTED_EVENT")){
-      console.log('found from cookie')
       return JSON.parse(localStorage.getItem("SELECTED_EVENT")) as EventModel;
     } else {
-      console.log('not found')
       this.router.navigate(['/event-selector'])
 
       return null;
