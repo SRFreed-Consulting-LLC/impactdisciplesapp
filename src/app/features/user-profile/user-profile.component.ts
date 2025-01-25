@@ -18,7 +18,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.getUser().pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
       this.currentUser = user;
-      console.log(user)
     })
   }
 

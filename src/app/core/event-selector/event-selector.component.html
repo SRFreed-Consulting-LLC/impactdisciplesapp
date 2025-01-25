@@ -15,7 +15,16 @@
   <div class="event-selector__title">'{{ emailAddressUsed}}' has been registered multiple time for this event. Please visit Tech Support in the lobby, or contact us at {{'info@impactdisciples.com'}} to resolve this issue!</div>
 </div>
 
-
+<div *ngIf="spinnerVisible" class="row" style="position: absolute;top: 50%; left: 50%;">
+  <div class="col-12 alignCenter">
+    <dx-load-indicator
+      [visible]="spinnerVisible"
+      id="large-indicator"
+      height="100"
+      width="100">
+    </dx-load-indicator>
+  </div>
+</div>
 <!-- <div class="frame" *ngIf="registeredEventsList">
   <div class= container>
     <div class="row">
