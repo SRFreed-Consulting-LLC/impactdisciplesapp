@@ -1,4 +1,4 @@
-<div class="event-selector">
+<div class="event-selector" *ngIf="!errorFound">
   <div class="event-selector__title">Please select which event you wish to load now.</div>
   <hr>
   <div class="event-selector__wrapper">
@@ -9,6 +9,10 @@
       <div class="title">{{ event?.eventName }}</div>
     </div>
   </div>
+</div>
+
+<div class="event-selector" *ngIf="errorFound">
+  <div class="event-selector__title">'{{ emailAddressUsed}}' has been registered multiple time for this event. Please visit Tech Support in the lobby, or contact us at {{'info@impactdisciples.com'}} to resolve this issue!</div>
 </div>
 
 
