@@ -1,13 +1,11 @@
 import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import Query from 'devextreme/data/query';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ShowCourseModal } from './course-modal.actions';
 import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/training-room.model';
-import { DataService } from 'src/app/admin/data.service';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
@@ -15,6 +13,7 @@ import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model'
 import { confirm } from 'devextreme/ui/dialog';
 import { ScheduleModel } from 'src/app/shared/models/schedule.model';
 import { ResetSchedule } from '../schedule.actions';
+import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
 
 export interface CourseItem {
   course: CourseModel;
@@ -28,27 +27,26 @@ export interface CourseItem {
 })
 export class CourseModalComponent implements OnInit, OnDestroy {
   @Input() allCourses: ScheduleModel[];
+  @Input('event') event: EventModel;
+  @Input('courses') coursesList: CourseModel[] = [];
+  @Input('coaches') coachesList: CoachModel[] = [];
+  @Input('rooms') roomsList: TrainingRoomModel[] = [];
   customAgendaItem: any;
   courseItem: CourseModel;
-  currentUser: CustomerModel;
-  event: EventModel;
-  roomsList: TrainingRoomModel[] = [];
-  coachesList: CoachModel[] = [];
+  currentUser: CustomerModel | EventRegistrationModel;
   @Output() courseUpdated: EventEmitter<any> = new EventEmitter<any>();
 
   public isVisible$ = new BehaviorSubject<boolean>(false);
 
   private ngUnsubscribe = new Subject<void>();
 
-  getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
-  getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private eventRegistrationService: EventRegistrationService,
+    private scheduleService: ScheduleService){}
 
-  constructor(private store: Store, private actions$: Actions, private dataService: DataService, private eventRegistrationService: EventRegistrationService, private scheduleService: ScheduleService){}
-
-  ngOnInit(): void {
-    this.roomsList = this.dataService.getRooms();
-    this.coachesList = this.dataService.getCoaches();
-
+  async ngOnInit(): Promise<void> {
     this.actions$.pipe(
       ofActionDispatched(ShowCourseModal),
       takeUntil(this.ngUnsubscribe)
@@ -67,7 +65,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
 
 
   getRoomName(id: string){
-    let room: TrainingRoomModel = this.getRoomById(id);
+    let room: TrainingRoomModel = this.roomsList.find(item => item.id == id);
 
     if(room){
       return room.name
@@ -77,7 +75,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
   }
 
   getCoachImg(id: string){
-    let coach: CoachModel = this.getCoachById(id);
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
 
     if(coach){
       return coach.photoUrl.url
@@ -87,7 +85,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
   }
 
   getCoachName(id: string){
-    let coach: CoachModel = this.getCoachById(id);
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
 
     if(coach){
       return coach.fullname
@@ -98,7 +96,7 @@ export class CourseModalComponent implements OnInit, OnDestroy {
 
 
   getCoachTitle(id: string){
-    let coach: CoachModel = this.getCoachById(id);
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
 
     if(coach){
       return coach.title

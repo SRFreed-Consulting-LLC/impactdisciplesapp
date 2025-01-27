@@ -1,5 +1,4 @@
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
-import { DataService } from './../../admin/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QueryParam, WhereFilterOperandKeys } from 'impactdisciplescommon/src/dao/firebase.dao';
@@ -7,11 +6,9 @@ import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
 import { CookieService } from 'ngx-cookie-service';
-import { take } from 'rxjs';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 import { ToastrService } from 'ngx-toastr';
-
-const COOKIE_NAME = "impact-disciples-app"
+import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
 
 @Component({
   selector: 'app-event-selector',
@@ -33,7 +30,7 @@ export class EventSelectorComponent implements OnInit {
     private eventService: EventService,
     private eventRegistrationService: EventRegistrationService,
     private router: Router,
-    private dataService: DataService,
+    private sessionService: SessionService,
     private authService: AuthService,
     private toastr: ToastrService
   ) { }
@@ -51,33 +48,33 @@ export class EventSelectorComponent implements OnInit {
       this.toastr.error("There was an error finding the events for which you have registered. Please contact Tech Support at 'info@impactdisciples.com' for help!", "System Error")
     } else if(registeredEvents && registeredEvents.length == 1){
       this.errorFound = false;
-      this.setUserCookie(registeredEvents[0]);
-      this.setLoggedIn(registeredEvents[0])
+
+      let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == registeredEvents[0].id);
+
+      this.setUser(registration);
+
+      this.setLoggedIn(registration)
+
       this.checkForMultipleRegistrations(registeredEvents[0]);
     } else {
       this.errorFound = false;
-      this.setUserCookie(registeredEvents[0]);
-      this.setLoggedIn(registeredEvents[0]);
       this.registeredEventsList = registeredEvents;
     }
   }
 
   async selectEvent(event: EventModel){
     this.errorFound = false;
+
     this.checkForMultipleRegistrations(event);
   }
 
-  setLoggedIn(event: EventModel){
-    let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == event.id);
-
+  setLoggedIn(registration: EventRegistrationModel){
     registration.loggedIn = true;
 
     this.eventRegistrationService.update(registration.id, registration);
   }
 
-  setUserCookie(event:EventModel){
-    let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == event.id);
-
+  setUser(registration: EventRegistrationModel){
     return this.authService.setUser(registration);
   }
 
@@ -91,12 +88,16 @@ export class EventSelectorComponent implements OnInit {
     this.eventRegistrationService.queryAllByMultiValue(params).then(async registrations => {
       if(registrations && registrations.length == 1){
         this.spinnerVisible = true;
-        this.dataService.initializeEvent(event).then(() => {
-          this.spinnerVisible = false;
-          this.router.navigate(['home'])
-        }).catch(err => {
-          this.spinnerVisible = false;
-        });
+
+        this.setLoggedIn(registrations[0]);
+
+        this.setUser(registrations[0]);
+
+        this.sessionService.setCurrentEventId(registrations[0].eventId);
+
+        this.spinnerVisible = false;
+
+        this.router.navigate(['home'])
       } else {
         this.errorFound = true;
       }

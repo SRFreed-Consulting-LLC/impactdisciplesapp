@@ -9,12 +9,12 @@ import { WebConfigService } from 'impactdisciplescommon/src/services/data/web-co
   styleUrls: ['./private-policy.component.scss']
 })
 export class PrivatePolicyComponent implements OnInit {
-  public webConfig: WebConfigModel;
+  public webConfig: Promise<WebConfigModel>;
 
   constructor(private webConfigService: WebConfigService, private sanitizer: DomSanitizer){}
 
   async ngOnInit(): Promise<void> {
-    this.webConfig = await this.webConfigService.getAll().then(configs => {
+    this.webConfig = this.webConfigService.getAll().then(configs => {
       return configs[0];
     });
   }

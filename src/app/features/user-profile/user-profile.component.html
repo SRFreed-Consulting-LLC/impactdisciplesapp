@@ -18,28 +18,32 @@
       </div>
     </div>
     <div class="user-profile__menu">
-      <a href="/schedule" class="user-profile__menu-item">
+      <a [routerLink]="['/schedule']" class="user-profile__menu-item">
         <div class="title">My Schedule</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a href="/schedule" class="user-profile__menu-item">
+      <a [routerLink]="['/schedule']" class="user-profile__menu-item">
         <div class="title">Breakouts</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a href="/event-selector" class="user-profile__menu-item">
+      <a [routerLink]="['/event-selector']" class="user-profile__menu-item">
         <div class="title">View All Events</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a href="/faq" class="user-profile__menu-item">
+      <a [routerLink]="['/faq']" class="user-profile__menu-item">
         <div class="title">FAQ</div>
         <i class="fas fa-chevron-right"></i>
       </a>
-      <a href="policy" class="user-profile__menu-item">
+      <a [routerLink]="['/policy']" class="user-profile__menu-item">
         <div class="title">Privacy & Terms</div>
         <i class="fas fa-chevron-right"></i>
       </a>
       <a class="user-profile__menu-item" (click)="logout()">
         <div class="title">Sign Out</div>
+        <i class="fas fa-chevron-right"></i>
+      </a>
+      <a class="user-profile__menu-item" (click)="update()">
+        <div class="title">Update Application</div>
         <i class="fas fa-chevron-right"></i>
       </a>
     </div>

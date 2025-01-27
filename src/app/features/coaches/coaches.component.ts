@@ -1,10 +1,12 @@
-import { DataService } from './../../admin/data.service';
 import { Component, OnInit } from '@angular/core';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { OrganizationModel } from 'impactdisciplescommon/src/models/domain/organization.model';
 import { CoachService } from 'impactdisciplescommon/src/services/data/coach.service';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
+import { OrganizationService } from 'impactdisciplescommon/src/services/data/organization.service';
+import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
+import { BehaviorSubject, forkJoin, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-coaches',
@@ -19,28 +21,34 @@ export class CoachesComponent implements OnInit{
 
   public isVisible$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private dataService: DataService,
-    private coachService: CoachService,
+  private ngUnsubscribe = new Subject<void>();
+
+  constructor(private coachService: CoachService,
+    private organizationService: OrganizationService,
+    private eventService: EventService,
+    private sessionService: SessionService
   ){}
 
   async ngOnInit(): Promise<void> {
-    this.event =  await this.dataService.getEvent();
+    this.eventService.streamAllByValue('id', await this.sessionService.getCurrentEventId()).pipe(takeUntil(this.ngUnsubscribe)).subscribe(async events => {
+      this.event = events[0];
 
-    this.organizations = this.dataService.getOrganizations();
+      this.organizations = await this.organizationService.getAll();
 
-    const coachIds = Array.from(
-      new Set(
-        this.event.agendaItems.flatMap(item => item.coaches || [])
-      )
-    );
+      const coachIds = Array.from(
+        new Set(
+          this.event.agendaItems.flatMap(item => item.coaches || [])
+        )
+      );
 
-    if (coachIds.length > 0) {
-      const coachObservables = coachIds.map(id => this.coachService.getById(id));
+      if (coachIds.length > 0) {
+        const coachObservables = coachIds.map(id => this.coachService.getById(id));
 
-      forkJoin(coachObservables).subscribe((coaches) => {
-        this.coaches = coaches.sort((a, b) => a.sortOrder - b.sortOrder)
-      });
-    }
+        forkJoin(coachObservables).subscribe((coaches) => {
+          this.coaches = coaches.sort((a, b) => a.sortOrder - b.sortOrder)
+        });
+      }
+    });
   }
 
   viewCoach(coach: CoachModel){

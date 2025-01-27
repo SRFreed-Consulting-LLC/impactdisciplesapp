@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
-import Query from 'devextreme/data/query';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/training-room.model';
-import { DataService } from 'src/app/admin/data.service';
 import { ShowCourseModal } from '../course-modal/course-modal.actions';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
@@ -12,33 +10,42 @@ import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { confirm } from 'devextreme/ui/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
-
+import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
+import { LocationService } from 'impactdisciplescommon/src/services/data/location.service';
+import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 
 @Component({
   selector: 'app-breakout-sessions',
   templateUrl: './breakout-sessions.component.html',
   styleUrls: ['./breakout-sessions.component.scss']
 })
-export class BreakoutSessionsComponent implements OnInit {
+export class BreakoutSessionsComponent {
   @Input() allCourses: ScheduleModel[];
   @Input() myCourses: ScheduleModel[];
-  @Input() currentUser: CustomerModel;
+  @Input() currentUser: CustomerModel | EventRegistrationModel;
   @Input() event: EventModel;
-  courses: CourseModel[] = [];
-  roomsList: TrainingRoomModel[] = [];
+  @Input('courses') coursesList: CourseModel[] = [];
+  @Input('coaches') coachesList: CoachModel[] = [];
+  @Input('rooms') roomsList: TrainingRoomModel[] = [];
 
-  getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
-  getCourseById = (id: string) => Query(this.courses).filter(['id', '=', id]).toArray()[0];
+  constructor(private locationService: LocationService,
+    private store: Store,
+    private scheduleService: ScheduleService,
+    public toster: ToastrService,
+    private eventService: EventService) { }
 
-  constructor(private dataService: DataService, private store: Store, private scheduleService: ScheduleService, public toster: ToastrService, private eventService: EventService) { }
+  getCourse(id: string){
+    let course: CourseModel = this.coursesList.find(course => course.id == id);
 
-  ngOnInit() {
-    this.courses = this.dataService.getCourses();
-    this.roomsList = this.dataService.getRooms();
+    if(course){
+      return course
+    } else {
+      return null;
+    }
   }
 
   getRoomName(id: string){
-    let room: TrainingRoomModel = this.getRoomById(id);
+    let room: TrainingRoomModel = this.roomsList.find(item => item.id == id);
 
     if(room){
       return room.name
@@ -54,11 +61,41 @@ export class BreakoutSessionsComponent implements OnInit {
       return '';
     }
   }
+  getCoachImg(id: string){
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
+
+    if(coach){
+      return coach.photoUrl.url
+    } else {
+      return '';
+    }
+  }
+
+  getCoachName(id: string){
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
+
+    if(coach){
+      return coach.fullname
+    } else {
+      return '';
+    }
+  }
+
+
+  getCoachTitle(id: string){
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
+
+    if(coach){
+      return coach.title
+    } else {
+      return '';
+    }
+  }
 
   viewCourse(item: any) {
     if(item.item.isBreakout){
       if(this.viewCourseCapcaity(item.item.id) < item.item.maxParticipants){
-        let course: CourseModel = this.getCourseById(item.item.course);
+        let course: CourseModel = this.getCourse(item.item.course);
         this.store.dispatch(new ShowCourseModal(item, course, this.currentUser, this.event));
       } else {
         confirm('<i>This session is currently Full. Would you like to be added to the "Wait List"?</i>', 'Session is Full').then(async (dialogResult) => {

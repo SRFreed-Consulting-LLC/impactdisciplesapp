@@ -26,7 +26,7 @@
       <div class="course-popup-content__details-item">
         <i class="fa-solid fa-users"></i>
         <span>Capacity: {{ getCapacity() }} / {{ customAgendaItem?.item.maxParticipants }}</span>
-        <span *ngIf="getCapacity() >= customAgendaItem?.item.maxParticipants" style="color: red;">Full</span>
+        <span *ngIf="getCapacity() >= customAgendaItem?.item.maxParticipants" style="color: red;">&nbsp;&nbsp;&nbsp;&nbsp;Full</span>
       </div>
     </div>
     <dx-button *ngIf="!customAgendaItem?.isAssignedToUser" class="course-popup-content__button-add" [text]="'Sign up'" (onClick)="addCourse(customAgendaItem.item)"></dx-button>

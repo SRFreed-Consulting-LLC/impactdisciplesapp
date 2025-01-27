@@ -1,76 +1,48 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/training-room.model';
-import Query from 'devextreme/data/query';
 import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
-import { DataService } from 'src/app/admin/data.service';
 import { Store } from '@ngxs/store';
 import { ShowCourseModal } from '../course-modal/course-modal.actions';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
-import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { confirm } from 'devextreme/ui/dialog';
 import { DaysModel, ScheduleModel, TimeGroupsModel } from 'src/app/shared/models/schedule.model';
-
-export class TrainingDay{
-  date: Date;
-  sessions: TrainingSession[] = [];
-
-}
-export class TrainingSession{
-  date: Date;
-  startTime: Date;
-  endTime: Date;
-  title: string;
-  description: string;
-  courses: AgendaItem[] = [];
-}
+import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
 
 @Component({
   selector: 'app-my-schedule',
   templateUrl: './my-schedule.component.html',
   styleUrls: ['./my-schedule.component.scss']
 })
-export class MyScheduleComponent implements OnInit {
+export class MyScheduleComponent {
   @Input('event') event: EventModel;
   @Input() fullSchedule: ScheduleModel[];
   @Input() activeDay: DaysModel;
-  @Input() currentUser: CustomerModel;
+  @Input() currentUser: CustomerModel | EventRegistrationModel;
+  @Input('courses') coursesList: CourseModel[] = [];
+  @Input('coaches') coachesList: CoachModel[] = [];
+  @Input('rooms') roomsList: TrainingRoomModel[] = [];
   @Output() courseUpdated: EventEmitter<any> = new EventEmitter<any>();
   @Output() navigateToBreakouts: EventEmitter<any> = new EventEmitter<any>();
+
+  selectedAgendaItem: AgendaItem;
   trainingDays: TrainingDay[];
 
-  courses: CourseModel[] = [];
-  coursesList: CourseModel[] = [];
-  coachesList: CoachModel[] = [];
-  roomsList: TrainingRoomModel[] = [];
-  selectedAgendaItem: AgendaItem;
-
-  getCoachById = (id: string) => Query(this.coachesList).filter(['id', '=', id]).toArray()[0];
-  getCourseById = (id: string) => Query(this.courses).filter(['id', '=', id]).toArray()[0];
-  getRoomById = (id: string) => Query(this.roomsList).filter(['id', '=', id]).toArray()[0];
-
-  constructor(private dataService: DataService, private store: Store, private eventRegistrationService: EventRegistrationService, private authService: AuthService, private cd: ChangeDetectorRef){}
-
-  async ngOnInit() {
-    this.courses = await this.dataService.getCourses();
-
-    this.coachesList = await this.dataService.getCoaches();
-
-    this.roomsList = await this.dataService.getRooms();
-
-  }
+  constructor(
+    private store: Store,
+    private eventRegistrationService: EventRegistrationService){}
 
   isUserAssignedToItem(agendaItem: { isAssignedToUser: boolean; item: AgendaItem }): boolean {
     return agendaItem.isAssignedToUser;
   }
-  
+
   isAnyItemAssignedInGroup(timeGroup: { date: Date; items: { isAssignedToUser: boolean; item: AgendaItem }[] }): boolean {
     return timeGroup.items.some(item => item.isAssignedToUser);
   }
-  
+
   addCourse(agendaItem: AgendaItem, timeGroup: any) {
     this.eventRegistrationService
       .registerForTrainingSession(this.currentUser.email, agendaItem.id, this.event.id)
@@ -78,7 +50,7 @@ export class MyScheduleComponent implements OnInit {
         this.courseUpdated.emit(timeGroup);
       });
   }
-  
+
   removeCourse(agendaItem: AgendaItem, timeGroup: any) {
     confirm('<i>Are you sure you want to remove this course from your schedule?</i>', 'Confirm').then((dialogResult) => {
       if (dialogResult) {
@@ -100,7 +72,8 @@ export class MyScheduleComponent implements OnInit {
     if(isAnyItemAssignedInGroup) {
       const customAgendaItem = timeGroup.items.find(item => item.isAssignedToUser);
       if (customAgendaItem) {
-        let course: CourseModel = this.getCourseById(customAgendaItem.item.course);
+        let course: CourseModel = this.coursesList.find(item => item.id == customAgendaItem.item.course);
+
         this.store.dispatch(new ShowCourseModal(customAgendaItem, course, this.currentUser, this.event));
       }
     } else {
@@ -116,8 +89,18 @@ export class MyScheduleComponent implements OnInit {
     }
   }
 
+  getCourse(id: string){
+    let course: CourseModel = this.coursesList.find(course => course.id == id);
+
+    if(course){
+      return course
+    } else {
+      return null;
+    }
+  }
+
   getCoachName(id: string){
-    let coach: CoachModel = this.getCoachById(id);
+    let coach: CoachModel = this.coachesList.find(item => item.id == id);
 
     if(coach){
       return coach.fullname
@@ -127,7 +110,7 @@ export class MyScheduleComponent implements OnInit {
   }
 
   getRoomName(id: string){
-    let room: TrainingRoomModel = this.getRoomById(id);
+    let room: TrainingRoomModel = this.roomsList.find(item => item.id == id);
 
     if(room){
       return room.name
@@ -147,8 +130,23 @@ export class MyScheduleComponent implements OnInit {
   }
 
   viewCourse(item: any) {
-    let course: CourseModel = this.getCourseById(item.item.course);
+    let course: CourseModel = this.coursesList.find(course => course.id == item.item.course);
     this.store.dispatch(new ShowCourseModal(item, course, this.currentUser, this.event));
   }
 
+}
+
+export class TrainingDay{
+  date: Date;
+  sessions: TrainingSession[] = [];
+
+}
+
+export class TrainingSession{
+  date: Date;
+  startTime: Date;
+  endTime: Date;
+  title: string;
+  description: string;
+  courses: AgendaItem[] = [];
 }

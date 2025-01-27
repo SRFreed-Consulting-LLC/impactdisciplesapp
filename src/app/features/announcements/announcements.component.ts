@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import CustomStore from 'devextreme/data/custom_store';
-import DataSource from 'devextreme/data/data_source';
 import { AnnouncementModel } from 'impactdisciplescommon/src/models/domain/announcement.model.ts';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { EventAnnouncementService } from 'impactdisciplescommon/src/services/data/event-announcement.service';
-import { map, Observable } from 'rxjs';
-import { DataService } from 'src/app/admin/data.service';
+import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
+import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-announcements',
@@ -17,16 +16,21 @@ export class AnnouncementsComponent implements OnInit {
 
   announcements: AnnouncementModel[];
 
+  private ngUnsubscribe = new Subject<void>();
+
   constructor(private service: EventAnnouncementService,
-    private dataService: DataService
+    private eventService: EventService,
+    private sessionService: SessionService
   ) { }
 
   async ngOnInit() {
-    this.event = await this.dataService.getEvent();
+    this.eventService.streamAllByValue('id', await this.sessionService.getCurrentEventId()).pipe(takeUntil(this.ngUnsubscribe)).subscribe(events => {
+      this.event = events[0];
 
-    if(this.event?.id){
-      this.service.streamAllByValue('eventId', this.event.id).subscribe(announcements => this.announcements = announcements)
-    }
+      if(this.event?.id){
+        this.service.streamAllByValue('eventId', this.event.id).subscribe(announcements => this.announcements = announcements)
+      }
+    })
   }
 
 }

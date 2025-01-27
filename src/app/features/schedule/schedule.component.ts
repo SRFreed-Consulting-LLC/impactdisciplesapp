@@ -1,8 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
-import { DataService } from 'src/app/admin/data.service';
 import { Tab } from 'impactdisciplescommon/src/models/utils/tab.model';
-import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
 import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
@@ -11,6 +9,15 @@ import { ScheduleModel } from 'src/app/shared/models/schedule.model';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { ResetSchedule } from './schedule.actions';
 import { ScheduleService } from 'src/app/shared/services/schedule.service';
+import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
+import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
+import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
+import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
+import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
+import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/training-room.model';
+import { LocationService } from 'impactdisciplescommon/src/services/data/location.service';
+import { CoachService } from 'impactdisciplescommon/src/services/data/coach.service';
+import { CourseService } from 'impactdisciplescommon/src/services/data/course.service';
 
 @Component({
   selector: 'app-schedule',
@@ -21,12 +28,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   event: EventModel;
   selectedIndex: number = 0;
   selectedTab: string = 'My Schedule';
-  currentUser: CustomerModel;
+  currentUser: CustomerModel | EventRegistrationModel;
   activeDay: any;
   allCourses: ScheduleModel[];
   fullSchedule: ScheduleModel[];
   myCourses: ScheduleModel[];
   sessionIds: string[]
+
+  coursesList: CourseModel[] = [];
+  coachesList: CoachModel[] = [];
+  roomsList: TrainingRoomModel[] = [];
 
   tabs: Tab[] = [
     { id: 0, text: 'My Schedule', template: 'My Schedule',  icon: 'user' },
@@ -35,30 +46,47 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
+  visible: boolean = false;
+
   constructor(
-    private dataService: DataService,
+    private eventService: EventService,
     private authService: AuthService,
     private eventRegistrationService: EventRegistrationService,
     private scheduleService: ScheduleService,
     private actions$: Actions,
-    private store: Store
+    private store: Store,
+    private locationService: LocationService,
+    private courseService: CourseService,
+    private coachService: CoachService
+
   ) { }
 
   async ngOnInit() {
-    this.event = await this.dataService.getEvent();
+    let eventId: string = (await this.authService.getUserAsPromise() as EventRegistrationModel).eventId;
 
-    console.log(this.event);
+    this.eventService.streamAllByValue('id', eventId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(async events => {
+      this.currentUser = await this.authService.getUserAsPromise();
 
-    this.scheduleService.monitorBreakoutCapacity(this.event);
-    this.authService.getUser().pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
-      this.currentUser = user;
-    });
+      this.event = events[0];
 
-    this.actions$.pipe(ofActionDispatched(ResetSchedule), takeUntil(this.ngUnsubscribe)).subscribe(async () => {
-      await this.updateSchedule();
-    });
+      this.coursesList = await this.courseService.getAll();
 
-    this.store.dispatch(new ResetSchedule());
+      this.coachesList = await this.coachService.getAll();
+
+      this.roomsList = await this.locationService.getById(typeof this.event.location=='string'? this.event.location : this.event.location.id).then(location => {
+        return location.trainingrooms;
+      })
+
+      this.scheduleService.monitorBreakoutCapacity(this.event);
+
+      this.actions$.pipe(ofActionDispatched(ResetSchedule), takeUntil(this.ngUnsubscribe)).subscribe(async () => {
+        await this.updateSchedule();
+      });
+
+      this.store.dispatch(new ResetSchedule());
+
+      this.visible = true;
+    })
   }
 
   private async updateSchedule() {

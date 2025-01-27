@@ -26,11 +26,10 @@ constructor(private courseService: CourseService,
   private organizationService: OrganizationService,
   private router: Router){}
 
-  public async initializeEvent(event?: EventModel){
-    if(event){
-      this.event = event;
-    }
+  public async initializeEvent(event: EventModel){
+    this.event = event;
 
+    localStorage.clear();
     localStorage.setItem("SELECTED_EVENT", JSON.stringify(event))
 
     this.organizationsList = await this.organizationService.getAll();
@@ -50,12 +49,6 @@ constructor(private courseService: CourseService,
     this.coachList = await this.coachService.getAll();
 
     localStorage.setItem("COACHESLIST", JSON.stringify(this.coachList))
-
-    return true;
-  }
-
-  setEvent(event:EventModel){
-    this.event = event;
   }
 
   getEvent(){

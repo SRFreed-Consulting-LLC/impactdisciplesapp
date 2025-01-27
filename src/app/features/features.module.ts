@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { HomeComponent } from './home/home.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { DxAccordionModule, DxButtonModule, DxPopupModule, DxSchedulerModule, DxTabsModule } from 'devextreme-angular';
+import { DxAccordionModule, DxButtonModule, DxLoadIndicatorModule, DxPopupModule, DxSchedulerModule, DxTabsModule } from 'devextreme-angular';
 import { RouterModule } from '@angular/router';
 import { CoachesComponent } from './coaches/coaches.component';
 import { FormsModule } from '@angular/forms';
@@ -43,6 +43,7 @@ import { MapComponent } from './map/map.component';
     DxButtonModule,
     DxSchedulerModule,
     DxAccordionModule,
+    DxLoadIndicatorModule,
     DxPopupModule,
     DxTabsModule,
     SharedModule

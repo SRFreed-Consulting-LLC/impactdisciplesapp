@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { AgendaItem } from 'impactdisciplescommon/src/models/domain/utils/agenda-item.model';
-import { DataService } from 'src/app/admin/data.service';
+import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
+import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dining',
@@ -15,33 +17,41 @@ export class DiningComponent {
   sanitizedContent: SafeHtml;
   diningSchedule: { date: string; items: AgendaItem[] }[] = [];
 
-  constructor(private dataService: DataService, private sanitizer: DomSanitizer, private datePipe: DatePipe){}
+  private ngUnsubscribe = new Subject<void>();
+
+  constructor(private sanitizer: DomSanitizer,
+    private eventService: EventService,
+    private sessionService: SessionService
+  ){}
 
   async ngOnInit() {
-    this.event = await this.dataService.getEvent();
-    if(this.event?.diningOptions) {
-      this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.diningOptions);
-    }
-    if (this.event?.agendaItems) {
-      // Filter agenda items with isFoodBreak = true
-      const foodBreakItems = this.event.agendaItems.filter(item => item.isFoodBreak);
+    this.eventService.streamAllByValue('id', await this.sessionService.getCurrentEventId()).pipe(takeUntil(this.ngUnsubscribe)).subscribe(events => {
+      this.event = events[0];
 
-      // Group items by their date
-      const grouped = foodBreakItems.reduce((acc, item) => {
-        const dateKey = this.getDateKey(item.startDate); // Get a standardized date string
-        if (!acc[dateKey]) {
-          acc[dateKey] = [];
-        }
-        acc[dateKey].push(item);
-        return acc;
-      }, {});
+      if(this.event?.diningOptions) {
+        this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(this.event?.diningOptions);
+      }
+      if (this.event?.agendaItems) {
+        // Filter agenda items with isFoodBreak = true
+        const foodBreakItems = this.event.agendaItems.filter(item => item.isFoodBreak);
 
-      // Convert the grouped object to an array for easy rendering
-      this.diningSchedule = Object.keys(grouped).map(date => ({
-        date,
-        items: grouped[date],
-      }));
-    }
+        // Group items by their date
+        const grouped = foodBreakItems.reduce((acc, item) => {
+          const dateKey = this.getDateKey(item.startDate); // Get a standardized date string
+          if (!acc[dateKey]) {
+            acc[dateKey] = [];
+          }
+          acc[dateKey].push(item);
+          return acc;
+        }, {});
+
+        // Convert the grouped object to an array for easy rendering
+        this.diningSchedule = Object.keys(grouped).map(date => ({
+          date,
+          items: grouped[date],
+        }));
+      }
+    })
   }
 
   // Helper to convert startDate to a standardized string

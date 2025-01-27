@@ -23,3 +23,11 @@
 //   }
 // });
 
+// window.addEventListener("visibilitychange", function () {
+//   console.log("Visibility changed");
+//   if (document.visibilityState === "visible") {
+//     console.log("APP resumed");
+//     window.location.reload();
+//   }
+// });
+
