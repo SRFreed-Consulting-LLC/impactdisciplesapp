@@ -53,8 +53,6 @@ export class EventSelectorComponent implements OnInit {
 
       this.setUser(registration);
 
-      this.setLoggedIn(registration)
-
       this.checkForMultipleRegistrations(registeredEvents[0]);
     } else {
       this.errorFound = false;
@@ -90,8 +88,6 @@ export class EventSelectorComponent implements OnInit {
         this.spinnerVisible = true;
 
         this.setLoggedIn(registrations[0]);
-
-        this.setUser(registrations[0]);
 
         this.sessionService.setCurrentEventId(registrations[0].eventId);
 
