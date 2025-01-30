@@ -46,16 +46,7 @@ export class EventSelectorComponent implements OnInit {
 
     if(!registeredEvents || registeredEvents.length == 0){
       this.toastr.error("There was an error finding the events for which you have registered. Please contact Tech Support at 'info@impactdisciples.com' for help!", "System Error")
-    } else if(registeredEvents && registeredEvents.length == 1){
-      this.errorFound = false;
-
-      let registration: EventRegistrationModel = this.registrations.find(reg => reg.eventId == registeredEvents[0].id);
-
-      this.setUser(registration);
-
-      this.checkForMultipleRegistrations(registeredEvents[0]);
-    } else {
-      this.errorFound = false;
+    } else if(registeredEvents && registeredEvents.length >= 1){
       this.registeredEventsList = registeredEvents;
     }
   }
@@ -64,16 +55,6 @@ export class EventSelectorComponent implements OnInit {
     this.errorFound = false;
 
     this.checkForMultipleRegistrations(event);
-  }
-
-  setLoggedIn(registration: EventRegistrationModel){
-    registration.loggedIn = true;
-
-    this.eventRegistrationService.update(registration.id, registration);
-  }
-
-  setUser(registration: EventRegistrationModel){
-    return this.authService.setUser(registration);
   }
 
   async checkForMultipleRegistrations(event:EventModel){
@@ -87,6 +68,8 @@ export class EventSelectorComponent implements OnInit {
       if(registrations && registrations.length == 1){
         this.spinnerVisible = true;
 
+        this.setUser(registrations[0]);
+
         this.setLoggedIn(registrations[0]);
 
         this.sessionService.setCurrentEventId(registrations[0].eventId);
@@ -99,6 +82,16 @@ export class EventSelectorComponent implements OnInit {
       }
     })
 
+  }
+
+  setLoggedIn(registration: EventRegistrationModel){
+    registration.loggedIn = true;
+
+    this.eventRegistrationService.update(registration.id, registration);
+  }
+
+  setUser(registration: EventRegistrationModel){
+    return this.authService.setUser(registration);
   }
 
 }
