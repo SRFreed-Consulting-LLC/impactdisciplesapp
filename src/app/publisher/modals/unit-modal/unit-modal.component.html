@@ -1,0 +1,57 @@
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [visible]="isVisible$ | async"
+  height="30%"
+  width="30%"
+  [showCloseButton]="true"
+  (onHiding)="onCancel()">
+  <dxi-toolbar-item toolbar="top" location="center">
+    <div *dxTemplate>
+      <p class="popup-title">
+        {{ unit?.id ? 'EDIT' : 'ADD' }} UNIT
+      </p>
+    </div>
+  </dxi-toolbar-item>
+  <div *dxTemplate="let data of 'content'">
+    <div class="add-item-modal">
+      <div class="add-item-modal__content" *ngIf="isVisible$ | async">
+        <dx-form
+          #addEditForm
+          [(formData)]="unit"
+          [showColonAfterLabel]="false"
+          labelLocation="left"
+          [colCount]="5">
+          <dxi-item dataField="order" [colSpan]="1" [isRequired]="true">
+            <div *dxTemplate>
+              <dx-number-box
+                [(value)]="unit.order">
+              </dx-number-box>
+            </div>
+          </dxi-item>
+          <dxi-item dataField="title" [colSpan]="4" [isRequired]="true"></dxi-item>
+        </dx-form>
+      </div>
+    </div>
+    <div class="add-item-modal__button-group" style="position: absolute; right: 15px; bottom: 10px;">
+      <dx-button
+        width="150px"
+        style="margin-right: 10px;"
+        text="CANCEL"
+        stylingMode="contained"
+        type="normal"
+        [disabled]="inProgress$ | async"
+        (onClick)="onCancel()">
+      </dx-button>
+      <dx-button
+        width="150px"
+        text="SAVE"
+        stylingMode="contained"
+        type="normal"
+        [disabled]="inProgress$ | async"
+        (onClick)="onSave(unit)">
+      </dx-button>
+    </div>
+  </div>
+</dx-popup>
+

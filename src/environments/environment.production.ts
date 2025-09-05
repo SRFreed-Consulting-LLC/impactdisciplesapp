@@ -11,7 +11,7 @@ export const environment = {
   },
   domain: 'https://impactdisciples-app.web.app/',
   session_expires: 30,
-  application: 'application'
+  application: 'book'
 };
 
 
