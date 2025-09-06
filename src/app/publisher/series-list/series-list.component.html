@@ -1,0 +1,59 @@
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [visible]="isVisible$ | async"
+  height="70%"
+  width="40%"
+  [showCloseButton]="true"
+  (onHiding)="onCancel()">
+  <dxi-toolbar-item toolbar="top" location="center">
+    <div *dxTemplate>
+      <p class="popup-title">
+        SERIES
+      </p>
+    </div>
+  </dxi-toolbar-item>
+  <div *dxTemplate="let data of 'content'">
+    <div class="add-item-modal">
+      <div class="add-item-modal__content" *ngIf="isVisible$ | async">
+        <div class="content-block responsive-paddings">
+          <dx-toolbar class="py-2">
+            <dxi-item
+              location="after"
+              widget="dxButton"
+              [options]="{
+                hint: 'ADD SERIES',
+                type: 'default',
+                text: 'ADD SERIES',
+                stylingMode: 'contained',
+                onClick: showSeriesAddModal
+              }"
+            ></dxi-item>
+          </dx-toolbar>
+        </div>
+        <dx-data-grid class="dx-card wide-card"
+          #grid
+          [dataSource]="datasource$ | async"
+          [height]="'50vh'"
+          [showBorders]="false"
+          [showColumnLines]="true"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [focusedRowEnabled]="true"
+          [columnAutoWidth]="true"
+          (onRowDblClick)="showEditModal($event)">
+
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxi-column dataField="title"></dxi-column>
+
+          <dxi-column type="buttons" caption="Actions" [allowReordering]="false">
+            <dxi-button icon="trash" hint="DELETE" [onClick]="delete"></dxi-button>
+          </dxi-column>
+
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
