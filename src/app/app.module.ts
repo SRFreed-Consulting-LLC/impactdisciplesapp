@@ -16,7 +16,6 @@ import { CoreModule } from './core/core.module';
 import { ImpactFormsModule } from 'impactdisciplescommon/src/forms/forms.module';
 import { NgxsModule } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
-import { PublisherModule } from './publisher/publisher.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +24,11 @@ import { PublisherModule } from './publisher/publisher.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // ServiceWorkerModule.register('firebase-messaging-sw.js', {
+    //   enabled: !isDevMode(),
+    //   scope: environment.domain,
+    //   registrationStrategy: 'registerWhenStable:20000'
+    // }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       scope: environment.domain,
@@ -38,7 +42,6 @@ import { PublisherModule } from './publisher/publisher.module';
     CoreModule,
     FeaturesModule,
     AdminModule,
-    PublisherModule,
     ImpactFormsModule,
     LayoutsModule,
     ImpactDisciplesModule

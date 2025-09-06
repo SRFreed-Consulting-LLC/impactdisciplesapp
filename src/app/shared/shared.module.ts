@@ -1,22 +1,17 @@
 import { NgModule } from '@angular/core';
-import { DxButtonModule, DxGalleryModule, DxLoadIndicatorModule } from 'devextreme-angular';
+import { DxGalleryModule } from 'devextreme-angular';
 import { LocationPipe } from './pipes/location.pipe';
-import { IndicatorButtonComponent } from './indicator-button/indicator-button.component';
 
 @NgModule({
   declarations: [
-    LocationPipe,
-    IndicatorButtonComponent
+    LocationPipe
   ],
   imports: [
-    DxGalleryModule,
-    DxButtonModule,
-    DxLoadIndicatorModule
+    DxGalleryModule
   ],
   exports: [
     DxGalleryModule,
-    LocationPipe,
-    IndicatorButtonComponent
+    LocationPipe
   ]
 })
 export class SharedModule { }

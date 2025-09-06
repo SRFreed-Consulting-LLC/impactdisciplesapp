@@ -1,0 +1,54 @@
+@import '../../../assets/styles/variables.scss';
+
+.event-selector {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  hr {
+    width: 100%;
+    border-top: 1px solid $border;
+    margin-bottom: 30px;
+  }
+  &__title {
+    font-weight: 800;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  &__event {
+    border: 1px solid #272727;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    .image {
+      img {
+        width: 100%; 
+        height: auto;
+        display: block; 
+        border-radius: 8px 8px 0 0;
+      }
+    }
+    .title {
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #222222;
+    }
+  }
+}
+
+
+
+
+.frame {
+  display: grid;
+  position: absolute;
+  top: 35px;
+  height: 85vh;
+  width: 100vw;
+  overflow-y: scroll;
+}
+.logo-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px
+}

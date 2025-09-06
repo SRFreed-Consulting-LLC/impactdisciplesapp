@@ -1,0 +1,85 @@
+<div class="header">
+  <a [routerLink]="['/home']"><i class="fas fa-chevron-left"></i></a>
+  <span>Event Speakers</span>
+  <img src="../../../assets/icons/Impact-Logo_Light.png" width="40px" height="40px">
+</div>
+<div class="coaches" *ngIf="coaches && organizations">
+  <div class="coaches__wrapper">
+    <div class="coaches__coach" *ngFor="let coach of coaches" (click)="viewCoach(coach)">
+      <img class="transform" [src]="coach.photoUrl.url" [alt]="coach.firstName" width="100">
+      <div class="details">
+        <div class="name">{{ coach.firstName }} {{ coach.lastName }}</div>
+        <div class="title">{{ coach.title }}</div>
+        <div *ngIf="getOrganization(coach)" class="organization">{{ getOrganization(coach) }}</div>
+      </div>
+      <div class="view">
+        <i class="fas fa-eye"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="frame" *ngIf="coaches && organizations">
+  <div class="container">
+    <div class="row" style="width: 90vw;" *ngFor="let coach of coaches" (click)="viewCoach(coach)">
+      <div class="col-6">
+          <img class="transform" [src]="coach.photoUrl.url" [alt]="coach.firstName" height="100" width="100">
+      </div>
+
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12"><h5>{{ coach.firstName }} {{ coach.lastName }}</h5></div>
+        </div>
+        <div class="row">
+          <div class="col-12"><p style="font-size: smaller;">{{'- ' + coach.title}}</p></div>
+        </div>
+        <div class="row" *ngIf="getOrganization(coach)">
+          <div class="col-12"><p style="font-size: smaller;">{{'@ ' + getOrganization(coach)}}</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [visible]="isVisible$ | async"
+  [width]="'90%'"
+  [height]="'90%'"
+  [showCloseButton]="true"
+  (onHiding)="onCancel()">
+  <div class="row pb-2" style="width:90vw;" *ngIf="isVisible$ | async">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <img class="transform" [src]="selectedCoach.photoUrl.url" [alt]="selectedCoach.firstName" height="100" width="100">
+    </div>
+    <div class="col-3"></div>
+  </div>
+  <div class="row pb-3" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div class="row">
+        <div class="col-12"><h5>{{ selectedCoach.firstName }} {{ selectedCoach.lastName }}</h5></div>
+      </div>
+      <div class="row">
+        <div class="col-12" [innerHTML]="'- ' + selectedCoach.title"></div>
+      </div>
+      <div class="row" *ngIf="getOrganization(selectedCoach)">
+        <div class="col-12">{{'@ ' + getOrganization(selectedCoach)}}</div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <div class="row pb-2" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-1"></div>
+    <div class="col-10" [innerHTML]="selectedCoach.bio"></div>
+    <div class="col-1"></div>
+  </div>
+  <div class="row" style="width: 90vw;" *ngIf="isVisible$ | async">
+    <div class="col-1"></div>
+    <div class="col-10"><a [href]="selectedCoach.url">{{selectedCoach.url}}</a></div>
+    <div class="col-1"></div>
+  </div>
+</dx-popup>

@@ -1,0 +1,59 @@
+<div class="event-selector" *ngIf="!errorFound">
+  <div class="event-selector__title">Please select which event you wish to load now.</div>
+  <hr>
+  <div class="event-selector__wrapper">
+    <div *ngFor="let event of registeredEventsList" class="event-selector__event" (click)="selectEvent(event)">
+      <div class="image">
+        <img [src]="event?.imageUrl?.url" width="230px">
+      </div>
+      <div class="title">{{ event?.eventName }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="event-selector" *ngIf="errorFound">
+  <div class="event-selector__title">'{{ emailAddressUsed}}' has been registered multiple time for this event. Please visit Tech Support in the lobby, or contact us at {{'info@impactdisciples.com'}} to resolve this issue!</div>
+</div>
+
+<div *ngIf="spinnerVisible" class="row" style="position: absolute;top: 50%; left: 50%;">
+  <div class="col-12 alignCenter">
+    <dx-load-indicator
+      [visible]="spinnerVisible"
+      id="large-indicator"
+      height="100"
+      width="100">
+    </dx-load-indicator>
+  </div>
+</div>
+<!-- <div class="frame" *ngIf="registeredEventsList">
+  <div class= container>
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6 logo-image">
+        <img src="https://firebasestorage.googleapis.com/v0/b/impactdisciples-a82a8.appspot.com/o/Logos%2FImpact-Logo_Black.png?alt=media&token=2a2452b7-a337-476f-b268-d0a4b0fa5d42" height="auto" width="80%">
+      </div>
+      <div class="col-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5>It appears you are registered for more than 1 event.</h5>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <h5>Please select which event you wish to load now.</h5>
+      </div>
+    </div>
+    <div class="row" *ngFor="let event of registeredEventsList">
+      <div class="col-12 pb-2">
+        <dx-button
+          [width]="'100%'"
+          stylingMode="contained"
+          type="normal"
+          [text]="event.eventName"
+          (onClick)="selectEvent(event)">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</div> -->

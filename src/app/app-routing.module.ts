@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './features/home/home.component';
+import { ScheduleComponent } from './features/schedule/schedule.component';
+import { AnnouncementsComponent } from './features/announcements/announcements.component';
 import { CapturePasswordFormComponent } from 'impactdisciplescommon/src/forms/capture-password-form/capture-password-form.component';
 import { CaptureUsernameFormComponent } from 'impactdisciplescommon/src/forms/capture-username-form/capture-username-form.component';
 import { ChangePasswordFormComponent } from 'impactdisciplescommon/src/forms/change-password-form/change-password-form.component';
@@ -7,11 +10,16 @@ import { CreateAuthFormComponent } from 'impactdisciplescommon/src/forms/create-
 import { ResetPasswordFormComponent } from 'impactdisciplescommon/src/forms/reset-password-form/reset-password-form.component';
 import { MainComponent } from './core/main/main.component';
 import { AuthGuardService } from 'impactdisciplescommon/src/services/utils/auth.service';
+import { CoachesComponent } from './features/coaches/coaches.component';
 import { AppAuthGuardService } from './core/app-auth-guard.service';
+import { EventSelectorComponent } from './core/event-selector/event-selector.component';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
+import { OnArrivalComponent } from './features/on-arrival/on-arrival.component';
+import { DiningComponent } from './features/dining/dining.component';
+import { FaqComponent } from './features/faq/faq.component';
 import { PrivatePolicyComponent } from './features/private-policy/private-policy.component';
 import { InstallComponent } from './core/install/install.component';
-import { PublishingManagerComponent } from './publisher/publishing-manager/publishing-manager.component';
+import { MapComponent } from './features/map/map.component';
 
 const routes: Routes = [
   {
@@ -20,16 +28,45 @@ const routes: Routes = [
     canActivate: [ AppAuthGuardService ],
     children: [
       {
-        path: 'home',
-        component: PublishingManagerComponent
+        path: '',
+        component: CaptureUsernameFormComponent,
+        canActivate: [ AuthGuardService ]
       },
       {
-        path: 'series-manager',
-        component: PublishingManagerComponent
+        path: 'announcements',
+        component: AnnouncementsComponent
+      },
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent
+      },
+      {
+        path: 'map',
+        component: MapComponent
+      },
+      {
+        path: 'coaches',
+        component: CoachesComponent
       },
       {
         path: 'user-profile',
         component: UserProfileComponent
+      },
+      {
+        path: 'on-arrival',
+        component: OnArrivalComponent
+      },
+      {
+        path: 'dining',
+        component: DiningComponent
+      },
+      {
+        path: 'faq',
+        component: FaqComponent
       },
       {
         path: 'policy',
@@ -41,6 +78,10 @@ const routes: Routes = [
     path: 'install',
     component: InstallComponent
   },
+  {
+    path: 'event-selector',
+    component: EventSelectorComponent
+  }, 
   {
     path: 'capture-username-form',
     component: CaptureUsernameFormComponent,

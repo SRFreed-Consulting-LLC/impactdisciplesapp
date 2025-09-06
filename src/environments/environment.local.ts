@@ -11,7 +11,7 @@ export const environment = {
   },
   domain: 'https://localhost:8080/',
   session_expires: 30,
-  application: 'book'
+  application: 'application'
 };
 
 
