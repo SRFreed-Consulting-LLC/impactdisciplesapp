@@ -9,8 +9,8 @@ import { ShowCourseModal } from '../course-modal/course-modal.actions';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { confirm } from 'devextreme/ui/dialog';
-import { DaysModel, ScheduleModel, TimeGroupsModel } from 'src/app/shared/models/schedule.model';
 import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
+import { ScheduleModel, DaysModel, TimeGroupsModel } from 'impactdisciplescommon/src/models/utils/schedule.model';
 
 @Component({
   selector: 'app-my-schedule',

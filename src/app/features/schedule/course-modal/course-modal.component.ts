@@ -1,4 +1,3 @@
-import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
@@ -11,9 +10,10 @@ import { EventRegistrationService } from 'impactdisciplescommon/src/services/dat
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { confirm } from 'devextreme/ui/dialog';
-import { ScheduleModel } from 'src/app/shared/models/schedule.model';
 import { ResetSchedule } from '../schedule.actions';
 import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
+import { ScheduleModel } from 'impactdisciplescommon/src/models/utils/schedule.model';
+import { ScheduleService } from 'impactdisciplescommon/src/services/utils/schedule.service';
 
 export interface CourseItem {
   course: CourseModel;

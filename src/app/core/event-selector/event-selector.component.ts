@@ -1,4 +1,3 @@
-import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QueryParam, WhereFilterOperandKeys } from 'impactdisciplescommon/src/dao/firebase.dao';
@@ -9,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
 import { ToastrService } from 'ngx-toastr';
 import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
+import { AuthService } from 'impactdisciplespwacommon/src/services/events/auth.service';
 
 @Component({
   selector: 'app-event-selector',

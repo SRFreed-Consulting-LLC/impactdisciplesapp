@@ -11,11 +11,11 @@ import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from './admin/admin.module';
 import { LayoutsModule } from 'impactdisciplescommon/src/layouts/layouts.module';
-import { ImpactDisciplesModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
+import { ImpactDisciplesCommonModule } from 'impactdisciplescommon/src/impactdisciples.common.module';
 import { CoreModule } from './core/core.module';
-import { ImpactFormsModule } from 'impactdisciplescommon/src/forms/forms.module';
 import { NgxsModule } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
+import { ImpactEventsFormsModule } from 'impactdisciplespwacommon/src/forms/events/events-forms.module';
 
 @NgModule({
   declarations: [
@@ -42,9 +42,9 @@ import { DatePipe } from '@angular/common';
     CoreModule,
     FeaturesModule,
     AdminModule,
-    ImpactFormsModule,
+    ImpactEventsFormsModule,
     LayoutsModule,
-    ImpactDisciplesModule
+    ImpactDisciplesCommonModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

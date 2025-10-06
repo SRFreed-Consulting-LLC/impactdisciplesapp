@@ -5,14 +5,14 @@ import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/train
 import { ShowCourseModal } from '../course-modal/course-modal.actions';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
-import { ScheduleModel } from 'src/app/shared/models/schedule.model';
-import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { confirm } from 'devextreme/ui/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
 import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
 import { LocationService } from 'impactdisciplescommon/src/services/data/location.service';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
+import { ScheduleModel } from 'impactdisciplescommon/src/models/utils/schedule.model';
+import { ScheduleService } from 'impactdisciplescommon/src/services/utils/schedule.service';
 
 @Component({
   selector: 'app-breakout-sessions',

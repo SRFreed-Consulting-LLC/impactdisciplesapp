@@ -8,11 +8,8 @@ import { EventAnnouncementService } from 'impactdisciplescommon/src/services/dat
 import { AnnouncementModel } from 'impactdisciplescommon/src/models/domain/announcement.model.ts';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { ResetSchedule } from '../schedule/schedule.actions';
-import { ScheduleService } from 'src/app/shared/services/schedule.service';
-import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
-import { ScheduleModel, UpdatedAgendaItemModel } from 'src/app/shared/models/schedule.model';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import Query from 'devextreme/data/query';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -21,6 +18,9 @@ import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
 import { CourseService } from 'impactdisciplescommon/src/services/data/course.service';
 import { LocationService } from 'impactdisciplescommon/src/services/data/location.service';
+import { ScheduleModel, UpdatedAgendaItemModel } from 'impactdisciplescommon/src/models/utils/schedule.model';
+import { ScheduleService } from 'impactdisciplescommon/src/services/utils/schedule.service';
+import { AuthService } from 'impactdisciplespwacommon/src/services/events/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('today') todayElement!: ElementRef;
   coaches: CoachModel[];
   event: EventModel;
-  currentUser: CustomerModel | EventRegistrationModel;
+  currentUser: EventRegistrationModel;
   courses: CourseModel[] = [];
   roomsList: TrainingRoomModel[] = [];
   mySchedule: ScheduleModel[];
@@ -71,9 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.roomsList = await this.locationService.getById(typeof this.event.location=='string'? this.event.location : this.event.location.id).then(location => {
         return location.trainingrooms;
       })
-      this.authService.getUser().pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
-        this.currentUser = user;
-      });
+      this.currentUser = this.authService.getLoggedInUser()
 
       if(this.event?.id){
         this.eventAnnouncementService.streamAllByValue('eventId', this.event.id).subscribe(announcements => this.announcements = announcements)

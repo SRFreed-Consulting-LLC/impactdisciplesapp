@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
-import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
+import { AuthService } from 'impactdisciplespwacommon/src/services/events/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -10,16 +10,14 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-  currentUser: CustomerModel | EventRegistrationModel;
+  currentUser: EventRegistrationModel;
 
   private ngUnsubscribe = new Subject<void>();
 
   constructor(private authService: AuthService ){}
 
   ngOnInit(): void {
-    this.authService.getUser().pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
-      this.currentUser = user;
-    })
+    this.currentUser = this.authService.getLoggedInUser()
   }
 
   logout() {

@@ -1,23 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventModel } from 'impactdisciplescommon/src/models/domain/event.model';
 import { Tab } from 'impactdisciplescommon/src/models/utils/tab.model';
-import { AuthService } from 'impactdisciplescommon/src/services/utils/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CustomerModel } from 'impactdisciplescommon/src/models/domain/utils/customer.model';
 import { EventRegistrationService } from 'impactdisciplescommon/src/services/data/event-registration.service';
-import { ScheduleModel } from 'src/app/shared/models/schedule.model';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { ResetSchedule } from './schedule.actions';
-import { ScheduleService } from 'src/app/shared/services/schedule.service';
 import { EventRegistrationModel } from 'impactdisciplescommon/src/models/domain/event-registration.model';
 import { EventService } from 'impactdisciplescommon/src/services/data/event.service';
-import { SessionService } from 'impactdisciplescommon/src/services/utils/session.service';
 import { CoachModel } from 'impactdisciplescommon/src/models/domain/coach.model';
 import { CourseModel } from 'impactdisciplescommon/src/models/domain/course.model';
 import { TrainingRoomModel } from 'impactdisciplescommon/src/models/domain/training-room.model';
 import { LocationService } from 'impactdisciplescommon/src/services/data/location.service';
 import { CoachService } from 'impactdisciplescommon/src/services/data/coach.service';
 import { CourseService } from 'impactdisciplescommon/src/services/data/course.service';
+import { ScheduleModel } from 'impactdisciplescommon/src/models/utils/schedule.model';
+import { ScheduleService } from 'impactdisciplescommon/src/services/utils/schedule.service';
+import { AuthService } from 'impactdisciplespwacommon/src/services/events/auth.service';
 
 @Component({
   selector: 'app-schedule',
@@ -62,10 +61,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
-    let eventId: string = (await this.authService.getUserAsPromise() as EventRegistrationModel).eventId;
+    let eventId: string = this.authService.getLoggedInUser().eventId;
 
     this.eventService.streamAllByValue('id', eventId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(async events => {
-      this.currentUser = await this.authService.getUserAsPromise();
+      this.currentUser = this.authService.getLoggedInUser();
 
       this.event = events[0];
 
